@@ -47,6 +47,7 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 				getBlobsByTag( "red", @potentials );
 			else
 				getBlobsByTag("blue", @potentials );
+			getBlobsByName("wartowerbottom", @potentials);
 
 			int direction = blob.get_u8("direction");
 			int distance;
@@ -270,6 +271,15 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 		if(barracks[i].getTeamNum() != blob.getTeamNum()
 		  && determineZone(barracks[i]) == determineZone(blob))
 			return barracks[i];
+	}
+
+	CBlob@[] archerbarracks;
+    getBlobsByName( "archerbarracks", @archerbarracks );
+	
+	for (uint i=0; i < archerbarracks.length; i++){
+		if(archerbarracks[i].getTeamNum() != blob.getTeamNum()
+		  && determineZone(archerbarracks[i]) == determineZone(blob))
+			return archerbarracks[i];
 	}
 
 	CBlob@[] portals;

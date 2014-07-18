@@ -207,6 +207,8 @@ void onCollision( CBlob@ this, CBlob@ blob, bool solid, Vec2f normal, Vec2f poin
 
 bool doesCollideWithBlob( CBlob@ this, CBlob@ blob )
 {
+	if(blob.getName() == "trader")
+		return false;
 	bool check = this.getTeamNum() != blob.getTeamNum();
 	if(!check)
 	{

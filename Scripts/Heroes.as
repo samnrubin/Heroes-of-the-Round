@@ -496,15 +496,54 @@ shared class HeroesCore : RulesCore
 
 	void IntervalSpawnMooks( CMap@ map)
 	{
-        CBlob@[] barracks;
+		bool spawnArchers = intervalSpawnerCount % 18 == 0;
+        
+		CBlob@[] quarters;
+        getBlobsByName( "quarters", @quarters );
+
+		/*CBlob@[] barracks;
         getBlobsByName( "barracks", @barracks );
-		for (uint i=0; i < barracks.length; i++)
+
+        CBlob@[] archerbarracks;
+        getBlobsByName( "archerbarracks", @archerbarracks );*/
+
+		for (uint i=0; i < quarters.length; i++)
 		{
-			Vec2f spos = barracks[i].getPosition();
-			bool blue = !determineSide(barracks[i]);
-			int zone = determineZone(barracks[i]);
+
+			bool hasBarracks = false;
+			bool hasArcherBarracks = false;
+
+			CBlob@[] blobs;
+
+			int knightSpawn = 3;
+			int archerSpawn = 1;
+
+			int waveSize = 0;
+			
+			getMap().getBlobsInRadius(quarters[i].getPosition(), t(20), blobs);
+
+
+			Vec2f bpos;
+			Vec2f apos;
+
+			for(uint j = 0; j < blobs.length; j++){
+				if(blobs[j].getName() == "barracks"){
+					hasBarracks = true;
+					waveSize += knightSpawn;
+					bpos = blobs[j].getPosition();
+				}
+				else if(blobs[j].getName() == "archerbarracks" && spawnArchers){
+					hasArcherBarracks = true;
+					waveSize += archerSpawn;
+					apos = blobs[j].getPosition();
+				}
+				
+			}
+
+			bool blue = !determineSide(quarters[i]);
+			int zone = determineZone(quarters[i]);
 			int difference = 45;
-			int waveSize = 3;
+
 			if(blue){
 				if(zone == 0){
 					if(maintopblue + waveSize - maintopred > difference){
@@ -531,19 +570,27 @@ shared class HeroesCore : RulesCore
 
 			}
 
+			
 			for(int j =1; j <= waveSize; j++) {
-				uint offset;
-				if(blue){
-					Vec2f spawn = Vec2f(spos.x + t(j), spos.y);
+				Vec2f spawn;
+				if(j <= knightSpawn){
+					if(blue){
+						spawn = Vec2f(bpos.x - t(j), bpos.y);
+					}
+					else{
+						spawn = Vec2f(bpos.x + t(j), bpos.y);
+					}
+					SpawnMook( spawn, "knight", blue, zone);
 				}
 				else{
-					Vec2f spawn = Vec2f(spos.x - t(j), spos.y);
+					if(blue){
+						spawn = Vec2f(apos.x - t(j - 3), apos.y);
+					}
+					else{
+						spawn = Vec2f(apos.x + t(j - 3), apos.y);
+					}
+					SpawnMook( spawn, "archer", blue, zone);
 				}
-				Vec2f spawn = Vec2f(spos.x + t(j), spos.y);
-				//if(j >= 6)
-				//	SpawnMook( spawn, "archer", blue);
-				//else
-					SpawnMook( spawn, "knight", blue, zone);
 			}
 		}
 		return;
@@ -552,7 +599,7 @@ shared class HeroesCore : RulesCore
 
 	CBlob@ SpawnMook( Vec2f pos, const string &in classname, bool blue, int zone  )
 	{
-		if(!sv_test || !(!blue && zone == 0)){
+		if((!sv_test || true) || !(!blue && zone == 0)){
 		CBlob@ blob = server_CreateBlobNoInit( classname );
 		if (blob !is null) {
 			//setup ready for init
@@ -568,11 +615,9 @@ shared class HeroesCore : RulesCore
 			u8 r = XORRandom(10);
 			blob.set_u8("personality", XORRandom(10));
 			blob.getBrain().server_SetActive( true );
-			blob.server_SetTimeToDie(60*6);	  // delete after 6 minutes
 			blob.server_SetHealth( blob.getInitialHealth() * 0.75f );
 			if(blue)
 				blob.Tag("blue");
-				//if(zone == 0){
 			else
 				blob.Tag("red");
 			GiveAmmo( blob );

@@ -273,6 +273,15 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 			return barracks[i];
 	}
 
+	CBlob@[] archerbarracks;
+    getBlobsByName( "archerbarracks", @archerbarracks );
+	
+	for (uint i=0; i < archerbarracks.length; i++){
+		if(archerbarracks[i].getTeamNum() != blob.getTeamNum()
+		  && determineZone(archerbarracks[i]) == determineZone(blob))
+			return archerbarracks[i];
+	}
+
 	CBlob@[] portals;
     getBlobsByName( "portal", @portals );
 	
@@ -404,11 +413,6 @@ void JumpOverObstacles( CBlob@ blob )
 
 void DefaultChaseBlob( CBlob@ blob, CBlob @target )
 {
-	CBrain@ brain = blob.getBrain();
-	Vec2f targetPos = target.getPosition();
-	Vec2f myPos = blob.getPosition();
-	Vec2f targetVector = targetPos - myPos;
-	f32 targetDistance = targetVector.Length();
 	// check if we have a clear area to the target
 
 	// repath if no clear path after going at it

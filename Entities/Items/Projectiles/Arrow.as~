@@ -229,7 +229,7 @@ bool doesCollideWithBlob( CBlob@ this, CBlob@ blob )
 	}
 
 	string bname = blob.getName();
-	if(bname == "fishy" || bname == "food" || bname == "waypoint" || bname == "wartowertop")//anything to always hit
+	if(bname == "fishy" || bname == "food" || bname == "waypoint")//anything to always hit
 	{
 		return true;
 	}

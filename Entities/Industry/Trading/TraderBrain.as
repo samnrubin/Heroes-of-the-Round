@@ -138,7 +138,7 @@ void onTick( CBrain@ this )
     }
     else // if standing randomly turn
     {
-        if (XORRandom(50) == 0) {
+        if (XORRandom(200) == 0) {
 			
             blob.setAimPos( blob.getPosition() + Vec2f( - 100.0f + XORRandom(200), 0.0f) );
         }  
