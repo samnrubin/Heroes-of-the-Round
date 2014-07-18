@@ -111,6 +111,7 @@ void onInit( CBlob@ this )
 						"Once You Pop, You Can't Stop. Pringles TM",
 						"15 minutes can save you 15% or more on car insurance!",
 						"Fiendishly weak!",
+						"Your stength is all an illusion!",
 						"Bringing the STORM!"
 						
 						};
@@ -131,10 +132,10 @@ void onInit( CBlob@ this )
 	  b.whines = temp; }
 	
 	//meta
-	b.tauntchance = 0.10f;
+	b.tauntchance = 0.05f;
 	
 	b.typespeed = 10;
-	b.talkchance = 0.10f;
+	b.talkchance = 0.05f;
 	
 	this.set( "taunt personality", b );//personalities[(this.getNetworkID() % personalities.length)] );
 }
@@ -149,7 +150,7 @@ void onTick( CBlob@ this )
 
 f32 onHit( CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData )
 {
-	if(hitterBlob.hasTag("human") && !this.hasTag("dead"))
+	if(!this.hasTag("dead"))
 		PromptAction(this, get_hurt, 5+XORRandom(5) );
 	
 	return damage;
@@ -157,7 +158,7 @@ f32 onHit( CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hit
 
 void onHitBlob( CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitBlob, u8 customData )
 {
-	if(hitBlob.hasTag("human") && !hitBlob.hasTag("dead"))
+	if(hitBlob.hasTag("player") && !hitBlob.hasTag("dead"))
 		PromptAction(this, hurt_enemy, 5+XORRandom(5) );
 }
 

@@ -100,7 +100,7 @@ void onInit( CBlob@ this )
 	b.get_hurt_emotes.push_back(Emotes::cry);
 	
 	//chats
-	{ string[] temp = { "I've got you under SIEGE",
+	{ string[] temp = { "Looks like you're under SIEGE!",
 						"fuck tha po-lice",
 						"noob!",
 						"top kek",
@@ -123,21 +123,18 @@ void onInit( CBlob@ this )
 						"...",
 						"Time... to die...",
 						"I wish the Black Death upon you",
-						
 						"I'll be back",
 						"Kag Heroes was designed and coded by Nand!",
 						"I've fallen and I can't get up",
-						
 						"Sang pls go.",
-						
 						"So much for my Young Blood" };
 	  b.whines = temp; }
 	
 	//meta
-	b.tauntchance = 0.10f;
+	b.tauntchance = 0.05f;
 	
 	b.typespeed = 10;
-	b.talkchance = 0.10f;
+	b.talkchance = 0.05f;
 	
 	this.set( "taunt personality", b );//personalities[(this.getNetworkID() % personalities.length)] );
 }
@@ -152,7 +149,7 @@ void onTick( CBlob@ this )
 
 f32 onHit( CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData )
 {
-	if(hitterBlob.hasTag("player") && !this.hasTag("dead"))
+	if(!this.hasTag("dead"))
 		PromptAction(this, get_hurt, 5+XORRandom(5) );
 	
 	return damage;

@@ -159,6 +159,11 @@ const SColor color_dummy(0xffe78c43);
 //NAND
 const SColor color_barracks_red(0xff746C6C);
 const SColor color_barracks_blue(0xff756C6C);
+
+const SColor color_archerbarracks_blue(0xff65A46C);
+const SColor color_archerbarracks_red(0xff66A46C);
+
+
 const SColor color_portal_blue(0xff4d067b);
 const SColor color_portal_red(0xff390958);
 const SColor color_portal_marker(0xff12031b);
@@ -907,6 +912,16 @@ class PNGLoader
 			spawnBlob( map, "barracks", offset, 0);
 			offsets[autotile_offset].push_back( offset );
 		}
+		else if (pixel == color_archerbarracks_red)
+		{
+			spawnBlob( map, "archerbarracks", offset, 1);
+			offsets[autotile_offset].push_back( offset );
+		}
+		else if (pixel == color_archerbarracks_blue)
+		{
+			spawnBlob( map, "archerbarracks", offset, 0);
+			offsets[autotile_offset].push_back( offset );
+		}
 		else if (pixel == color_portal_blue)
 		{
 		
@@ -951,7 +966,7 @@ class PNGLoader
 			spawnBlob( map, "trader", offset, -1);
 			offsets[autotile_offset].push_back( offset );
 		}
-		else if (pixel = color_neutral_waypoint)
+		else if (pixel == color_neutral_waypoint)
 		{
 			spawnBlob( map, "waypoint", offset, -1);
 			offsets[autotile_offset].push_back( offset );
