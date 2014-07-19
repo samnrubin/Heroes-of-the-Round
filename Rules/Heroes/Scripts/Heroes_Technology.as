@@ -260,7 +260,7 @@ void SetupScrolls(CRules@ this)
 	{
 		ScrollDef def;
 		def.name = "Scroll of Healing";
-		def.scrollFrame = FactoryFrame::magic_drought;
+		def.scrollFrame = FactoryFrame::healing;
 		def.scripts.push_back( "ScrollHeal.as" );
 		all.scrolls.set( "healteam", def );
 	}
@@ -268,9 +268,17 @@ void SetupScrolls(CRules@ this)
 	{
 		ScrollDef def;
 		def.name = "Scroll of Orb Summoning";
-		def.scrollFrame = FactoryFrame::magic_gib;
+		def.scrollFrame = FactoryFrame::pyro;
 		def.scripts.push_back( "ScrollOrb.as" );
 		all.scrolls.set( "orbsummon", def );
+	}
+
+	{
+		ScrollDef def;
+		def.name = "Scroll of Command";
+		def.scrollFrame = FactoryFrame::expl_ammo;
+		def.scripts.push_back( "ScrollRetinue.as" );
+		all.scrolls.set( "retinueme", def );
 	}
 
 	{
@@ -318,6 +326,7 @@ void SetupScrolls(CRules@ this)
 	copyFrom( all.scrolls, "telehome", super.scrolls );
 	copyFrom( all.scrolls, "healteam", super.scrolls );
 	copyFrom( all.scrolls, "orbsummon", super.scrolls );
+	copyFrom( all.scrolls, "retinueme", super.scrolls );
 
 	//build the name arrays
 	all.names = all.scrolls.getKeys();

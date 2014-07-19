@@ -49,14 +49,14 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 				getBlobsByTag("blue", @potentials );
 			getBlobsByName("wartowerbottom", @potentials);
 
-			int direction = blob.get_u8("direction");
+			int direction = sergeant.get_u8("direction");
 			int distance;
 
 			if(direction == 0 || direction == 1){
 				distance = 15;
 				pos = blob.getPosition();
 			}
-			else if(blob.hasTag("close")){
+			else if(direction == 3){
 				distance = 5;
 			}
 			else
@@ -335,7 +335,7 @@ void JustGo( CBlob@ blob, CBlob@ target )
 	bool retinue = target.getTeamNum() == blob.getTeamNum() && target.hasTag("human");
 	int direction;
 	if(retinue){
-		direction = blob.get_u8("direction");
+		direction = target.get_u8("direction");
 		if(direction == 0){
 			point.x -= t(15);
 		}
@@ -352,7 +352,7 @@ void JustGo( CBlob@ blob, CBlob@ target )
 
 	int limiter;
 
-	if(blob.hasTag("close")){
+	if(direction == 3){
 		limiter = t(1);
 		if(horiz_distance < t(2)){
 			if(retinue && target.isKeyPressed(key_up))

@@ -71,7 +71,7 @@ CBlob@ findTarget(CBlob@ this){
 			&& determineZone(this) == determineZone(potential)
 			&& (pos2 - pos).Length() < t(25)
 			&& !potential.hasTag("dead")
-			&& determineXZone(potential) == 2
+			&& determineXZone(this) == determineXZone(potential)
 			)
 		{
 			f32 dist = (pos - pos2).Length();

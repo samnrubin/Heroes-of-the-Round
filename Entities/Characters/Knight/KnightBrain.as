@@ -37,7 +37,7 @@ void isStuck( CBlob@ this ){
 		this.Untag("stuck");
 	}
 
-	if(stuckTime > getTicksASecond() * 3){
+	if(stuckTime > getTicksASecond() * 2.25){
 		this.Tag("stuck");
 		if(stuckTime % 10 == 9){
 			Vec2f wallpos;
@@ -141,11 +141,6 @@ void onTick( CBrain@ this )
 	CBlob @target = this.getTarget();
 
 	// Handle stick close when direction is down
-	if(blob.hasTag("close")){
-		if(getGameTime() - blob.get_u32("closetime") >= getTicksASecond() * 2){
-			blob.Untag("close");
-		}
-	}
 	//if (sv_test)
 	//	return;
 			 //	 blob.setKeyPressed( key_action2, true );

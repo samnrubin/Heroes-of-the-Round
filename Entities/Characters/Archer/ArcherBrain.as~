@@ -51,7 +51,7 @@ void onTick( CBrain@ this )
 		const bool visibleTarget = isVisible( blob, target, distance);
 		if (visibleTarget) 
 		{
-			if ( distance < t(6) && target.hasTag("player") &&
+			if ( distance < t(3) && target.hasTag("player") &&
 			!(target.getTeamNum() == blob.getTeamNum()) || !gotarrows || target.getName() == "wartowerbottom")
 				strategy = Strategy::retreating; 
 			else

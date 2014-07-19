@@ -193,6 +193,7 @@ class WarPNGLoader : PNGLoader
 						server_MakePredefinedScroll( Vec2f(pos.x + 2*map.tilesize, pos.y), "telehome" );
 						server_MakePredefinedScroll( Vec2f(pos.x + 3*map.tilesize, pos.y), "healteam" );
 						server_MakePredefinedScroll( Vec2f(pos.x + 4*map.tilesize, pos.y), "orbsummon" );
+						server_MakePredefinedScroll( Vec2f(pos.x + 5*map.tilesize, pos.y), "retinueme" );
 						//server_MakePredefinedScroll( pos + scrollOffset * 2, "drought" );
 						/*if (def !is null)
 						{

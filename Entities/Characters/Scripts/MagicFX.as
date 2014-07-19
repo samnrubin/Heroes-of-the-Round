@@ -1,11 +1,40 @@
 // Magical effects and animations
 
 #include "Heroes_MapFunctions.as";
+#include "EmotesCommon.as";
 
 
 const uint TELEPORT_PERIOD = 5 * getTicksASecond();
+const uint COMMAND_PERIOD = 30 * getTicksASecond();
 
 void onTick( CBlob@ this){
+	if(this.hasTag("sapperposer")){
+		if(getGameTime() - this.get_u32("retinue_called") >COMMAND_PERIOD){
+			this.Untag("sapperposer");
+			this.Sync("sapperposer", true);
+
+			if(this.isMyPlayer()){
+				Sound::Play("PowerDown.ogg");
+				client_AddToChat("Scroll of command has worn off");
+			}
+
+			this.set_u8("retinuesize", 0);
+			this.Sync("retinuesize", true);
+			CBlob@[] knights;
+			getBlobsByTag("retinue", @knights);
+
+			for(uint i = 0; i < knights.length; i++){
+				CBlob@ knight = knights[i];
+				if(knight.get_u16("sergeant") == this.getNetworkID()){
+					set_emote(knight, Emotes::knight);
+					knight.Untag("retinue");
+					knight.Sync("retinue", true);
+				}
+				
+			}
+			
+		}
+	}
 	if(this.hasTag("telehall")){
 		if(getGameTime() - this.get_u32("tele_called") > TELEPORT_PERIOD){
 			this.Untag("telehall");

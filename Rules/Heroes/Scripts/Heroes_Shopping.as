@@ -93,6 +93,7 @@ void MakeTradeMenu( CBlob@ trader )
 	s32 cost_scroll_home = 25;
 	s32 cost_scroll_heal = 50;
 	s32 cost_scroll_orb = 45;
+	s32 cost_scroll_retinue = 125;
 
 	// build menu
 	
@@ -110,6 +111,8 @@ void MakeTradeMenu( CBlob@ trader )
 		heroesAddTradeScroll( trader, "healteam", cost_scroll_heal, "Use this to heal all allies in a 5 tile radius.", 0 );	 
 		
 		heroesAddTradeScroll( trader, "orbsummon", cost_scroll_orb, "Use this to summon an orb which will seek out enemies, prioritizing other players.", 0 );
+
+		heroesAddTradeScroll( trader, "retinueme", cost_scroll_retinue,  "Gain an enhanced version of the sapper's command powers for the next 30 seconds.", 0 );
 	}
 	else if(trader.hasTag("weapons")){
 		CreateTradeMenu( trader, Vec2f(menu_width,menu_height), "\"Hurry up, I've got bison to kill\"" );

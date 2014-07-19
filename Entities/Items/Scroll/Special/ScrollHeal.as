@@ -2,6 +2,7 @@
 
 #include "Hitters.as";
 #include "Heroes_MapFunctions.as";
+#include "EmotesCommon.as";
 
 void onInit( CBlob@ this )
 {
@@ -34,6 +35,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 					{
 						hit = true;
 						b.server_SetHealth(b.getInitialHealth());
+						set_emote(b, Emotes::heart);
 					}
 				}
 			}

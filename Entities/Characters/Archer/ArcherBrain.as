@@ -49,6 +49,9 @@ void onTick( CBrain@ this )
 
 		f32 distance;
 		const bool visibleTarget = isVisible( blob, target, distance);
+		if(target.getName() == "portaldead"){
+			strategy = Strategy::chasing;
+		}
 		if (visibleTarget) 
 		{
 			if ( distance < t(3) && target.hasTag("player") &&

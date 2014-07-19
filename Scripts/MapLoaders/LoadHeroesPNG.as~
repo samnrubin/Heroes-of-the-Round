@@ -77,7 +77,7 @@ class WarPNGLoader : PNGLoader
 		else if (pixel == color_tradingpost_armor)
 		{
 			CBlob@ post = spawnBlob( map, "tradingpost", offset, 0 );
-			post.Tag("armos");
+			post.Tag("armor");
 			offsets[autotile_offset].push_back( offset );
 		}
 		//random scroll per-team

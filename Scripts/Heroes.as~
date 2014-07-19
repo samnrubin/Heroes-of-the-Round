@@ -496,7 +496,7 @@ shared class HeroesCore : RulesCore
 
 	void IntervalSpawnMooks( CMap@ map)
 	{
-		bool spawnArchers = intervalSpawnerCount % 24 == 0;
+		bool spawnArchers = intervalSpawnerCount % 18 == 0;
         
 		CBlob@[] quarters;
         getBlobsByName( "quarters", @quarters );
@@ -599,7 +599,7 @@ shared class HeroesCore : RulesCore
 
 	CBlob@ SpawnMook( Vec2f pos, const string &in classname, bool blue, int zone  )
 	{
-		if((!sv_test || true) || !(!blue && zone == 0)){
+		if((!sv_test || false) || !(!blue && zone == 0)){
 		CBlob@ blob = server_CreateBlobNoInit( classname );
 		if (blob !is null) {
 			//setup ready for init

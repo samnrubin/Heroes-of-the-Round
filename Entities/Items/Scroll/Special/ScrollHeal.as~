@@ -2,6 +2,7 @@
 
 #include "Hitters.as";
 #include "Heroes_MapFunctions.as";
+#include "EmotesCommon.as";
 
 void onInit( CBlob@ this )
 {
@@ -33,7 +34,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 					if (b.getTeamNum() == team && b.hasTag("flesh"))
 					{
 						hit = true;
-						b.server_setHealth(b.getInitialHealth());
+						b.server_SetHealth(b.getInitialHealth());
 					}
 				}
 			}

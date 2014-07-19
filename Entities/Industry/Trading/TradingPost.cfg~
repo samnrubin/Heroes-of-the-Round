@@ -95,7 +95,6 @@ $name                                      = tradingpost
 											 #GenericHit.as;
 											 IsFlammable.as;
 											 DecayInWater.as;
-											 IgnoreDamage.as;
 f32_health                                 = 7.0
 # looks & behaviour inside inventory
 $inventory_name                            = Trading Post
