@@ -6,7 +6,7 @@
 
 $sprite_factory                            = generic_sprite
 
-@$sprite_scripts                           = 
+@$sprite_scripts                           = HealthBar.as;
 $sprite_texture                            = WarTowerBottom.png
 s32_sprite_frame_width                     = 32
 s32_sprite_frame_height                    = 64
@@ -82,7 +82,6 @@ $name                                      = wartowerbottom
 											 WoodStructureHit.as;
 											 BuildingEffects.as;
 											 #HealthTag.as;
-											 HealthBar.as;
 f32_health                                 = 45.0
 # looks & behaviour inside inventory
 $inventory_name                            = WarTower

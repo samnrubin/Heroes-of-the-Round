@@ -1,6 +1,6 @@
 #define CLIENT_ONLY
 
-const SColor M_COLOR = SColor(0, 36, 57, 215);
+const SColor M_COLOR = SColor(0, 51, 116, 51);
 		
 string[] chats = {"Don't forget to access the help menus with P and Z.",
 				 "#Sadboyyyyyzzzzz",
@@ -20,7 +20,11 @@ string[] chats = {"Don't forget to access the help menus with P and Z.",
 				 "Suggestions? Post them in the HOTR Kag2d.com forum thread",
 				 "HOTR stands for Heroes of the Round",
 				 "Found a bug? Please message me asap on the forums",
-				 "Frozen with a red circle? IT'S MY FAULT, help me fix the bug by sending me your latest console log"
+				 "Frozen with a red circle? IT'S MY FAULT, help me fix the bug by sending me your latest console log",
+				 "This mod was created and designed by Nand",
+				 "This mod was created and designed by Nand",
+				 "This mod was created and designed by Nand",
+				 "This mod was created and designed by Nand"
 				 };
 
 
@@ -64,8 +68,13 @@ void onTick(CRules@ this){
 		client_AddToChat("A MOBA mod designed and developed by Nand", M_COLOR);
 	}
 
-	if(getGameTime() - this.get_u32("lastmessagetime") > 150 * getTicksASecond()){
-		client_AddToChat(chats[XORRandom(chats.length)], M_COLOR);
+	if(getGameTime() - this.get_u32("lastmessagetime") > 180 * getTicksASecond()){
+		u8 lastpick = XORRandom(chats.length);
+		while(lastpick == this.get_u8("lastpick")){
+			lastpick = XORRandom(chats.length);
+		}
+		client_AddToChat(chats[lastpick], M_COLOR);
 		this.set_u32("lastmessagetime", getGameTime());
+		this.set_u8("lastpick", lastpick);
 	}
 }
