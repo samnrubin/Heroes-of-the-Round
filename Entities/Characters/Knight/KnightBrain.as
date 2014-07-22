@@ -27,6 +27,16 @@ void isStuck( CBlob@ this ){
 	f32 lastXPos = this.get_f32("lastXPos");
 	Vec2f pos = this.getPosition();
 
+				/*CBlob@[] nands;
+				this.getMap().getBlobsInRadius(pos, t(3), @nands);
+				for(uint i = 0; i < nands.length; i++){
+					if(nands[i].hasTag("human")){
+						print(this.getBrain().getTarget().getName());
+						if(this.isKeyPressed(key_right))
+							print("right");
+						break;
+					}
+				}*/
 	if(Maths::Abs(pos.x - lastXPos) < t(0.5) && !this.isOnLadder()){
 		stuckTime++;
 		this.set_u16("stuckTime", stuckTime);
@@ -77,14 +87,6 @@ void isStuck( CBlob@ this ){
 				
 				bool isCeiling = map.rayCastSolid(pos, pos - Vec2f(0, t(2)));
 				triple = isCeiling ? XORRandom(4) : XORRandom(2);
-				/*CBlob@[] nands;
-				map.getBlobsInRadius(pos, t(3), @nands);
-				for(uint i = 0; i < nands.length; i++){
-					if(nands[i].hasTag("human")){
-						print(target.getName());
-						break;
-					}
-				}*/
 				
 				if(triple == 0){
 					wallpos = pos + Vec2f(1.3f*radius * direction, - t(0.5));
@@ -174,7 +176,7 @@ void onTick( CBrain@ this )
 		}
 		else if (strategy == Strategy::attacking)
 		{
-			if (!visibleTarget || distance > 120.0f) {
+			if (!visibleTarget || distance > 120.0f || target.getName() == "waypoint") {
 				strategy = Strategy::chasing; 
 			}
 		}

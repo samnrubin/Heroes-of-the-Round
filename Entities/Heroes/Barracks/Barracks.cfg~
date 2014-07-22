@@ -84,7 +84,6 @@ $name                                      = barracks
 											 WoodStructureHit.as;
 											 Stone.as;
 											 BuildingEffects.as;
-											 HealthTag.as;
 											 
 f32_health                                 = 25.0
 # looks & behaviour inside inventory

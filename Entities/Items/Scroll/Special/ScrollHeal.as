@@ -34,7 +34,8 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 					if (b.getTeamNum() == team && b.hasTag("flesh"))
 					{
 						hit = true;
-						b.server_SetHealth(b.getInitialHealth());
+						f32 hearts = this.exists("defaulthearts") ? this.get_f32("defaulthearts") : 1.0f;
+						b.server_SetHealth(b.getInitialHealth() * hearts);
 						set_emote(b, Emotes::heart);
 					}
 				}

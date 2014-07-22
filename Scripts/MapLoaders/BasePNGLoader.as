@@ -176,6 +176,9 @@ const SColor color_towertop_red(0xff9c1bbc);
 const SColor color_neutral_trader(0xff34344b);
 const SColor color_neutral_waypoint(0xffdface0);
 
+const SColor color_red_tent(0xfffe0000);
+const SColor color_blue_tent(0xff01ffff);
+
 
 enum WAROffset {
 	autotile_offset = 0,
@@ -311,6 +314,14 @@ class PNGLoader
 		}
 		else if (pixel == color_red_main_spawn) {
 			AddMarker( map, offset, "red main spawn" );
+		}
+		else if (pixel == color_blue_tent) {
+			spawnBlob( map, "tent", offset, 0);
+			offsets[autotile_offset].push_back( offset );
+		}
+		else if (pixel == color_red_tent) {
+			spawnBlob( map, "tent", offset, 1);
+			offsets[autotile_offset].push_back( offset );
 		}
 		else if (pixel == color_green_main_spawn)
 		{

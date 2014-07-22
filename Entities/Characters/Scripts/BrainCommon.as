@@ -227,15 +227,14 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 		CBlob@ waypoint = waypoints[i];
 		Vec2f pos2 = waypoint.getPosition();
 		f32 xDistance = pos2.x - pos.x;
-		if(waypoint.hasTag("enabled") &&
-		   waypoint.getShape().isStatic() &&
+		if(waypoint.getShape().isStatic() &&
 		   determineZone(blob) == determineZone(waypoint) &&
 		   waypoint.getTeamNum() == blob.getTeamNum() &&
 		   ((blob.getTeamNum() == 0 && xDistance >= 0) ||
 		    (blob.getTeamNum() == 1 && xDistance <= 0))
 		){
 			xDistance = Maths::Abs(xDistance);
-			// Ignore a waypoint if you're already jumping above it or you've been at it for a while
+			// Ignore a waypoint if you've been at it for a while
 				if(
 				xDistance < closestDist &&
 				blob.get_u16("stuckTime") < 3 * getTicksASecond()){ 
@@ -250,13 +249,16 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
     getBlobsByName( "hall", @halls );
 
 
+	bool closeHall = false;
 	// Only attack halls if not already in enemy base
 	if(determineXZone(blob) == 2){
 		for (uint i=0; i < halls.length; i++){
 			if(halls[i].getTeamNum() != blob.getTeamNum()
 			  && determineZone(halls[i]) == determineZone(blob)
-			  && Maths::Abs(halls[i].getPosition().x - pos.x) < closestDist)
-				return halls[i];
+			  && Maths::Abs(halls[i].getPosition().x - pos.x) < closestDist){
+				closeHall = true;
+				closestDist = Maths::Abs(halls[i].getPosition().x - pos.x);
+			}
 		}
 	}
 
@@ -378,8 +380,17 @@ void JustGo( CBlob@ blob, CBlob@ target )
 			blob.SetFacingLeft(false);
 		}
 
-		if (point.y + getMap().tilesize*0.7f < mypos.y && (target.isOnGround()) ||
-			(point.y - t(1) < mypos.y && target.getName() == "waypoint" &&
+		if(target.getName() == "waypoint" && horiz_distance < t(2) && !target.hasTag("up")){
+			if(blob.getTeamNum() == 0){
+				blob.setKeyPressed( key_right, true);
+				print("way1");
+			}
+			else if(blob.getTeamNum() == 1){
+				blob.setKeyPressed( key_left, true);
+			}
+
+		}else if (point.y + getMap().tilesize*0.7f < mypos.y && (target.isOnGround()) ||
+			(point.y - t(1) < mypos.y && target.getName() == "waypoint" && target.hasTag("up") &&
 			 horiz_distance < t(3))){
 
 			blob.setKeyPressed( key_up, true );
@@ -394,6 +405,9 @@ void JustGo( CBlob@ blob, CBlob@ target )
 
 void JumpOverObstacles( CBlob@ blob )
 {
+	if(blob.getBrain().getTarget().getName() == "waypoint"){
+		blob.setKeyPressed(key_right, true);
+	}
 	Vec2f pos = blob.getPosition();
 		const f32 radius = blob.getRadius();
 		if((pos.x < t(baseZone + wall + 2) && pos.x > t(baseZone - 6.0f))
@@ -466,7 +480,20 @@ void DefaultChaseBlob( CBlob@ blob, CBlob @target )
 	}
 
 	// jump over small blocks	
-	JumpOverObstacles( blob );
+	if(!(target.getName() == "waypoint" && !target.hasTag("up") &&
+		(target.getPosition() - blob.getPosition()).Length() < t(3) )){
+		JumpOverObstacles( blob );
+	}
+	else{
+		if(blob.getTeamNum() == 0){
+			blob.setKeyPressed( key_right, true);
+				print("way2");
+		}
+		else if(blob.getTeamNum() == 1){
+			blob.setKeyPressed( key_left, true);
+		}
+
+	}
 }
 
 bool DefaultRetreatBlob( CBlob@ blob, CBlob@ target )

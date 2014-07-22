@@ -115,6 +115,7 @@ CBlob@ findTarget(CBlob@ this){
 			&& (pos2 - pos).Length() < t(25)
 			&& !potential.hasTag("dead")
 			&& determineXZone(potential) == 2
+			&& isVisible(this, potential)
 			)
 		{
 			f32 dist = (pos - pos2).Length();
@@ -236,4 +237,10 @@ bool doesCollideWithBlob( CBlob@ this, CBlob@ blob )
 	if(blob.getName() == "arrow" && blob.getTeamNum() != this.getTeamNum())
 		return true;
 	return false;
+}
+
+bool isVisible( CBlob@blob, CBlob@ target)
+{
+	Vec2f col;
+	return !getMap().rayCastSolid( blob.getPosition(), target.getPosition(), col );
 }

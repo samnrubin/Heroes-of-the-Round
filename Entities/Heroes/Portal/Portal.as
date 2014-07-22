@@ -7,7 +7,7 @@
 
 void onInit( CBlob@ this )
 {
-    this.CreateRespawnPoint( "portal", Vec2f(0.0f, 16.0f) );
+    this.CreateRespawnPoint( "portal", Vec2f(0.0f, 0.0f) );
 	AddIconToken( "$knight_class_icon$", "GUI/MenuItems.png", Vec2f(32,32), 12);
 	AddIconToken( "$archer_class_icon$", "GUI/MenuItems.png", Vec2f(32,32), 16 );
 	AddIconToken( "$builder_class_icon$", "GUI/MenuItems.png", Vec2f(32,32), 8 );
@@ -21,7 +21,7 @@ void onInit( CBlob@ this )
     this.addCommandID("class menu");
     this.addCommandID("respawn");
 	this.Tag("change class");
-	this.Tag("bed");
+	//this.Tag("bed");
 
 
 	this.getSprite().SetZ( -50.0f ); // push to background

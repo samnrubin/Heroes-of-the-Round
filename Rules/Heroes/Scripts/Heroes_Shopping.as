@@ -70,30 +70,30 @@ void MakeTradeMenu( CBlob@ trader )
 
 	s32 cost_bombs = 25;
 	s32 cost_waterbombs = 30;
-	s32 cost_keg = 150;
-	s32 cost_mine = 75;
+	s32 cost_keg = 120;
+	s32 cost_mine = 50;
 
 	s32 cost_arrows = 15;
-	s32 cost_waterarrows = 40;
-	s32 cost_firearrows = 60;
-	s32 cost_bombarrows = 50;
+	s32 cost_waterarrows = 20;
+	s32 cost_firearrows = 30;
+	s32 cost_bombarrows = 30;
 
 	s32 cost_mountedbow = 100;
-	s32 cost_drill = 250;
+	s32 cost_drill = 200;
 	s32 cost_boulder = 150;
-	//s32 cost_burger = cfg.read_s32("cost_burger", 40);
+	s32 cost_burger = 40;
 
 	s32 cost_catapult = -1;//cfg.read_s32("cost_catapult", -1);
 	s32 cost_ballista = -1;// cfg.read_s32("cost_ballista", -1);
 
 	s32 menu_width = 4;//cfg.read_s32("trade_menu_width", 4);
 	s32 menu_height = 4;//cfg.read_s32("trade_menu_height", 5);
-	s32 cost_scroll_carnage = 180;
-	s32 cost_scroll_hall = 25;
-	s32 cost_scroll_home = 25;
-	s32 cost_scroll_heal = 50;
-	s32 cost_scroll_orb = 45;
-	s32 cost_scroll_retinue = 125;
+	s32 cost_scroll_carnage = 150;
+	s32 cost_scroll_hall = 10;
+	s32 cost_scroll_home = 10;
+	s32 cost_scroll_heal = 40;
+	s32 cost_scroll_orb = 35;
+	s32 cost_scroll_retinue = 80;
 
 	// build menu
 	
@@ -188,6 +188,8 @@ void MakeTradeMenu( CBlob@ trader )
 			addItemForCoin( trader, "Bomb Arrow", cost_bombarrows, true, "$mat_bombarrows$", "mat_bombarrows", descriptions[51] );
 		if(cost_keg > 0)
 			addItemForCoin( trader, "Keg", cost_keg, true, "$keg$", "keg", descriptions[19] );
+		if(cost_burger > 0)
+			addItemForCoin( trader, "Burger", cost_burger, true, "$food$", "food", "Food for healing. Don't think about this too much." );	 	
 		heroesAddTradeScroll( trader, "telehall", cost_scroll_hall, "Teleport to your team's furthest owned hall in your current lane.", 0 );	 
 		heroesAddTradeScroll( trader, "telehome", cost_scroll_home, "Teleport back to your team's portal in your current lane.", 0 );	 
 	}

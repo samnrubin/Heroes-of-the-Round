@@ -103,7 +103,8 @@ CBlob@ findTarget(CBlob@ this){
 		if (determineZone(this) == determineZone(potential)
 			&& (pos2 - pos).Length() < t(25)
 			&& !potential.hasTag("dead")
-			&& determineXZone(potential) == 2
+			&& determineXZone(potential) == determineXZone(this)
+			&& isVisible(this, potential)
 			)
 		{
 			f32 dist = (pos - pos2).Length();
@@ -135,3 +136,10 @@ void onCollision( CBlob@ this, CBlob@ blob, bool solid )
 			this.server_Die();			
 	}
 }
+
+bool isVisible( CBlob@blob, CBlob@ target)
+{
+	Vec2f col;
+	return !getMap().rayCastSolid( blob.getPosition(), target.getPosition(), col );
+}
+

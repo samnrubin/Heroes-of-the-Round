@@ -13,7 +13,7 @@ void onInit(CBlob@ this){
 
 	this.addCommandID("enable switch");
 
-	this.Tag("enabled");
+	this.Tag("up");
     
 	
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;	 
@@ -29,7 +29,7 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller){
 	CBitStream params;
 	params.write_u16( caller.getNetworkID() );
 	if(this.getTeamNum() == caller.getTeamNum() && this.getShape().isStatic()){
-		string description = this.hasTag("enabled") ? "Disable waypoint" : "Enable waypoint";
+		string description = this.hasTag("up") ? "Set as Ground Waypoint" : "Set as Jump Waypoint";
 		CButton@ button = caller.CreateGenericButton(2, Vec2f_zero, this, this.getCommandID("enable switch"), description, params);
 	}
 	
@@ -38,13 +38,13 @@ void GetButtonsFor(CBlob@ this, CBlob@ caller){
 void onCommand(CBlob @this, u8 cmd, CBitStream @params){
 	CSprite@ sprite = this.getSprite();
 	if( cmd == this.getCommandID("enable switch")){
-		if(this.hasTag("enabled")){
+		if(this.hasTag("up")){
 			sprite.animation.frame = 1;
-			this.Untag("enabled");
+			this.Untag("up");
 		}
 		else{
 			sprite.animation.frame = 0;
-			this.Tag("enabled");
+			this.Tag("up");
 		}
 	}
 }

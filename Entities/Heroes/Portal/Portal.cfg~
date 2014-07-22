@@ -47,7 +47,7 @@ $shape_factory                             = box2d_shape
 
 @$shape_scripts                            = 
 f32 shape_mass                             = 0.0
-f32 shape_radius                           = 32.0
+f32 shape_radius                           = 28.0
 f32 shape_friction                         = 0.5
 f32 shape_elasticity                       = 0.1
 f32 shape_buoyancy                         = 1.0
@@ -74,8 +74,7 @@ $name                                      = portal
 											 WoodStructureHit.as;
 											 BuildingEffects.as;
 											 Stone.as;
-											 HealthTag.as;
-f32_health                                 = 60.0
+f32_health                                 = 20.0
 # looks & behaviour inside inventory
 $inventory_name                            = Portal
 $inventory_icon                            = -

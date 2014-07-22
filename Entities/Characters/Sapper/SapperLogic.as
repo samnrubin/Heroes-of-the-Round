@@ -1,4 +1,4 @@
-// Builder logic
+// Sergeant logic
 
 #include "Hitters.as";
 #include "Knocked.as";
@@ -10,6 +10,7 @@
 #include "Requirements.as"
 #include "SapperHittable.as";
 #include "PlacementCommon.as";
+#include "Heroes_MapFunctions.as";
 
 void onInit( CBlob@ this )
 {
@@ -98,6 +99,34 @@ void onTick( CBlob@ this )
             blob.server_Die();
         }
     }
+
+	if(this.isKeyJustPressed(key_taunts)){
+		summonKnight(this);
+	}
+}
+
+void summonKnight(CBlob@ this){
+	ParticleZombieLightning(this.getPosition() - Vec2f(0, t(2)));
+	
+	if(getNet().isServer()){
+		CBlob@ blob = server_CreateBlobNoInit( "knight" );
+		blob.setSexNum(0);
+		blob.setPosition(this.getPosition() - Vec2f(0, t(2)));
+		blob.setHeadNum( this.getHeadNum() );
+		blob.Init();						  
+		blob.set_u8("personality", XORRandom(10));
+		blob.set_f32("defaulthearts", 0.5);
+		blob.getBrain().server_SetActive( true );
+		blob.server_SetHealth( blob.getInitialHealth() * 0.5 );
+		if(this.getTeamNum() == 0){
+			blob.Tag("blue");
+			blob.server_setTeamNum(0);
+		}
+		else{
+			blob.Tag("red");
+			blob.server_setTeamNum(1);
+		}
+	}
 }
 
 void SendHitCommand( CBlob@ this, CBlob@ blob, const Vec2f tilepos, const Vec2f attackVel, const f32 attack_power )

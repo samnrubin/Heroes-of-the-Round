@@ -16,6 +16,7 @@ $sprite_factory                                   = generic_sprite
 													RunnerFootSteps.as;
 													DazzleAnimation.as;
 													RunnerDrowning.as;
+													CharacterInfo.as;
 												  DrawHelp.as;
                           DrawHoverMessages.as;
     
@@ -297,6 +298,7 @@ $name                                             = paladin
 @$scripts                                         = RunnerDefault.as;
 													StandardControls.as;
 													StandardPickup.as;
+													MagicFX.as;
 													ActivateHeldObject.as;
 													RunnerActivateable.as;
 													DetectLadder.as; #resets ladder, put before other code that uses ladder

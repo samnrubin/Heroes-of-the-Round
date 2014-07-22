@@ -28,6 +28,21 @@ void renderFrontStone( Vec2f farside, f32 width, f32 scale)
     GUI::DrawIcon("Entities/Common/GUI/BaseGUI.png", 3, Vec2f(16,32), farside, scale);
 }
 
+void renderHeroesStone( Vec2f farside, f32 width, f32 scale)
+{
+    for (f32 step = 0.0f; step < width/scale - 16.0f*scale*2; step += 16.0f*scale*2)
+    {
+        GUI::DrawIcon("Entities/Common/GUI/BaseGUI.png", 2, Vec2f(16,26), farside+Vec2f(-step*scale - 32*scale,0), scale);
+    }
+
+    if (width > 16) {
+        GUI::DrawIcon("Entities/Common/GUI/BaseGUI.png", 2, Vec2f(16,26), farside+Vec2f(-width, 0), scale);
+    }
+
+    GUI::DrawIcon("Entities/Common/GUI/BaseGUI.png", 0, Vec2f(16,26), farside+Vec2f(-width - 32*scale, 0), scale);
+    GUI::DrawIcon("Entities/Common/GUI/BaseGUI.png", 3, Vec2f(16,26), farside, scale);
+}
+
 void renderHPBar( CBlob@ blob, Vec2f origin)
 {
     string heartFile = "GUI/HeartNBubble.png";
@@ -90,5 +105,6 @@ void onRender( CSprite@ this )
     f32 width = bar_width_in_slots * 32.0f;
     renderFrontStone( ul+Vec2f(dim.x+96,0), width, 1.0f);
     renderHPBar( blob, ul);
+    renderHeroesStone(ul + Vec2f(dim.x+48+16, -44.0f ), 8 * 32.0f, 1.0f);
     //GUI::DrawIcon("Entities/Common/GUI/BaseGUI.png", 0, Vec2f(128,32), topLeft);
 }

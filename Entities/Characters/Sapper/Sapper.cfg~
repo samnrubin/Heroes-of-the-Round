@@ -13,12 +13,14 @@ $sprite_factory                                   = generic_sprite
 													PartyIndicator.as;
 													RunnerHead.as;
 													DefaultActorHUD.as;													
+													LocationRestriction.as;
 													SapperHUD.as;
 													RunnerFootSteps.as;
 													DazzleAnimation.as;
 													RunnerDrowning.as;
 													DrawHelp.as;
 													SapperInventory.as;    
+													CharacterInfo.as;
 													DrawHoverMessages.as;
 $sprite_texture                                   = Sapper.png
 s32_sprite_frame_width                            = 32

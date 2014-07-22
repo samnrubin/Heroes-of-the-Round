@@ -507,6 +507,8 @@ shared class HeroesCore : RulesCore
         CBlob@[] archerbarracks;
         getBlobsByName( "archerbarracks", @archerbarracks );*/
 
+		int mookHead = GetMookHead();
+
 		for (uint i=0; i < quarters.length; i++)
 		{
 
@@ -515,7 +517,7 @@ shared class HeroesCore : RulesCore
 
 			CBlob@[] blobs;
 
-			int knightSpawn = 3;
+			int knightSpawn = 2;
 			int archerSpawn = 1;
 
 			int waveSize = 0;
@@ -570,6 +572,7 @@ shared class HeroesCore : RulesCore
 
 			}
 
+
 			
 			for(int j =1; j <= waveSize; j++) {
 				Vec2f spawn;
@@ -580,7 +583,7 @@ shared class HeroesCore : RulesCore
 					else{
 						spawn = Vec2f(bpos.x + t(j), bpos.y);
 					}
-					SpawnMook( spawn, "knight", blue, zone);
+					SpawnMook( spawn, "knight", blue, zone, 0.5f, mookHead);
 				}
 				else{
 					if(blue){
@@ -589,7 +592,7 @@ shared class HeroesCore : RulesCore
 					else{
 						spawn = Vec2f(apos.x + t(j - 3), apos.y);
 					}
-					SpawnMook( spawn, "archer", blue, zone);
+					SpawnMook( spawn, "archer", blue, zone, 0.5f, mookHead);
 				}
 			}
 		}
@@ -597,25 +600,25 @@ shared class HeroesCore : RulesCore
 	}
 
 
-	CBlob@ SpawnMook( Vec2f pos, const string &in classname, bool blue, int zone  )
+	CBlob@ SpawnMook( Vec2f pos, const string &in classname, bool blue, int zone, f32 hearts, int headNum)
 	{
 		if((!sv_test || true) || !(!blue && zone == 0)){
 		CBlob@ blob = server_CreateBlobNoInit( classname );
 		if (blob !is null) {
 			//setup ready for init
-			blob.setSexNum( XORRandom(2) );
-			blob.setPosition(pos + Vec2f(4.0f,0.0f));	
+			blob.setSexNum( classname == "knight" ? 0 : 1  );
+			blob.setPosition(pos);	
 			blob.set_s32("difficulty", 15 );
-			SetMookHead( blob, classname );			
+			//SetMookHead( blob, classname );			
+			blob.setHeadNum( headNum );
+
 
 			blob.Init();						  
 			blob.server_setTeamNum(blue ? 0 : 1);
-			blob.set_s32("defaultHealth", 100 );
-			blob.set_s32("health", 100 );
-			u8 r = XORRandom(10);
 			blob.set_u8("personality", XORRandom(10));
+			blob.set_f32("defaulthearts", hearts);
 			blob.getBrain().server_SetActive( true );
-			blob.server_SetHealth( blob.getInitialHealth() * 0.75f );
+			blob.server_SetHealth( blob.getInitialHealth() * hearts );
 			if(blue)
 				blob.Tag("blue");
 			else
@@ -679,60 +682,11 @@ shared class HeroesCore : RulesCore
 		}
 	}
 
-	void SetMookHead( CBlob@ blob, const string &in classname )
+	int GetMookHead()
 	{
-		const bool isKnight = classname == "knight";
 
-		int head = 15;
-		int selection = XORRandom(16);
-        if (isKnight)
-        {
-            switch (selection)
-            {
-            case 0:  head = 37; break;
-            case 1:  head = 18; break;
-            case 2:  head = 19; break;
-            case 3:  head = 42; break;
-            case 4:  head = 22; break;
-            case 5:  head = 23; break;
-            case 6:  head = 16; break;
-            case 7:  head = 48; break;
-            case 8:  head = 46; break;
-            case 9:  head = 45; break;
-            case 10: head = 47; break;
-            case 11: head = 20; break;
-            case 12: head = 21; break;
-            case 13: head = 44; break;
-            case 14: head = 43; break;
-            case 15: head = 36; break;
-            }
-        }
-        else
-        {
-            switch (selection)
-            {
-            case 0:  head = 35; break;
-            case 1:  head = 51; break;
-            case 2:  head = 52; break;
-            case 3:  head = 26; break;
-            case 4:  head = 22; break;
-            case 5:  head = 27; break;
-            case 6:  head = 24; break;
-            case 7:  head = 49; break;
-            case 8:  head = 17; break;
-            case 9:  head = 17; break;
-            case 10: head = 17; break;
-            case 11: head = 33; break;
-            case 12: head = 32; break;
-            case 13: head = 34; break;
-            case 14: head = 25; break;
-            case 15: head = 36; break;
-            }
-        }
-
-		head += 16; //reserved heads changed
-
-		blob.setHeadNum( head );
+		int head = 30 + XORRandom(65);
+		return head;
 	}
 
     void Update()
