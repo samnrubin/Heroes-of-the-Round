@@ -1,6 +1,6 @@
 // Archer animations
 
-#include "ArcherCommon.as"
+#include "ScoutCommon.as"
 #include "FireParticle.as"
 #include "RunnerAnimCommon.as";
 #include "RunnerCommon.as";
@@ -167,7 +167,7 @@ void onTick( CSprite@ this )
         return;
     }
     
-    ArcherInfo@ archer;
+    ScoutInfo@ archer;
 	if (!blob.get( "archerInfo", @archer )) {
 		return;
 	}
@@ -303,7 +303,7 @@ void onTick( CSprite@ this )
         CSpriteLayer@ frontarm = this.getSpriteLayer( "frontarm" );
         CSpriteLayer@ arrow = this.getSpriteLayer( "held arrow" );
 
-		ArcherInfo@ archer;
+		ScoutInfo@ archer;
 		if (!blob.get( "archerInfo", @archer )) {
 			return;
 		}
@@ -440,10 +440,34 @@ void onTick( CSprite@ this )
         blob.Untag("dead head");
     }
 
+	cloakManagement(this);
+
 
 }
 
-void doRopeUpdate(CSprite@ this, CBlob@ blob, ArcherInfo@ archer)
+void cloakManagement(CSprite@ this){
+	
+	CSpriteLayer@ rope = this.getSpriteLayer("rope");
+	CSpriteLayer@ hook = this.getSpriteLayer("hook");
+	CSpriteLayer@ quiver = this.getSpriteLayer("quiver");
+	CSpriteLayer@ backarm = this.getSpriteLayer("backarm");
+	CSpriteLayer@ frontarm = this.getSpriteLayer("frontarm");
+
+	if(this.getBlob().hasTag("cloaked")){
+		quiver.SetVisible(false);
+		rope.SetVisible(false);
+		hook.SetVisible(false);
+		backarm.SetVisible(false);
+		frontarm.SetVisible(false);
+	}
+	else{
+		/*quiver.SetVisible(true);
+		rope.SetVisible(true);
+		hook.SetVisible(true);*/
+	}
+}
+
+void doRopeUpdate(CSprite@ this, CBlob@ blob, ScoutInfo@ archer)
 {
 	CSpriteLayer@ rope = this.getSpriteLayer("rope");
 	CSpriteLayer@ hook = this.getSpriteLayer("hook");

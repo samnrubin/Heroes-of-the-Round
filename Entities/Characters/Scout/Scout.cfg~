@@ -162,6 +162,7 @@ $name                                             = scout
 													ActivateHeldObject.as;
 													RunnerActivateable.as;
 													DetectLadder.as; #resets ladder, put before other code that uses ladder
+														LocationRestriction.as;
 													SeatHop.as;
 													ArcherLogic.as;
 													ArcherAutoPickup.as;

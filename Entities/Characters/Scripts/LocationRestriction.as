@@ -4,7 +4,7 @@ void onTick(CBlob@ this){
 	this.getCurrentScript().tickFrequency = 30;
 
 	// Fixing topzone bugs
-	if(this.getPosition().y <= t(topZone)){
+	if(this.getPosition().y <= t(roofZone)){
 		CBlob@[] tents;
 		getBlobsByName("tent", @tents);
 		for(int i = 0; i < tents.length; i++){

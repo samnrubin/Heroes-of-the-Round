@@ -303,6 +303,7 @@ $name                                             = paladin
 													RunnerActivateable.as;
 													DetectLadder.as; #resets ladder, put before other code that uses ladder
                           ClimbArrows.as;
+						  							LocationRestriction.as;
 													SeatHop.as;
 													KnightLogic.as;
 													KnightAutoPickup.as;

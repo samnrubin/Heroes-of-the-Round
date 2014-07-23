@@ -9,7 +9,7 @@
 #include "Help.as"
 
 const int MIGRANTS = 5;
-const int MIGRANT_COST = 25;	// these should probably be in war_vars.cfg...
+const int MIGRANT_COST = 30;	// these should probably be in war_vars.cfg...
 const int CAPTURE_SECS = 45;	// is faster when more attackers			  
 const bool NEUTRAL_IN_WATER = true; //go neutral if underwater
 const int WATER_FLOOD_REQUIRED = 2; //2 or more "levels" of water to flood
@@ -328,7 +328,7 @@ void SetMinimap( CBlob@ this )
 	}
 	else
 	{
-		this.SetMinimapOutsideBehaviour(CBlob::minimap_arrow);
+		this.SetMinimapOutsideBehaviour(CBlob::minimap_none);
 		if (this.getTeamNum() >= 0 && this.getTeamNum() < 10)
 			this.SetMinimapVars("GUI/Minimap/MinimapIcons.png", 2, Vec2f(16,8));
 		else

@@ -623,10 +623,10 @@ shared class HallWorkerSet
 		workers.push_back(w);
 	}
 
-	//only respawn one per second
+	//only respawn one per 10 seconds
 	bool canRespawn()
 	{
-		return lastRespawnTime + getTicksASecond() * 3 < gametime;
+		return lastRespawnTime + getTicksASecond() * 10 < gametime;
 	}
 
 };

@@ -14,7 +14,7 @@ void onInit( CBlob@ this )
 	this.addCommandID("respawn");
     
     // minimap
-    this.SetMinimapOutsideBehaviour(CBlob::minimap_snap);
+    this.SetMinimapOutsideBehaviour(CBlob::minimap_none);
 	this.SetMinimapVars("GUI/Minimap/MinimapIcons.png", 1, Vec2f(8,8));
 	this.SetMinimapRenderAlways(true);
     

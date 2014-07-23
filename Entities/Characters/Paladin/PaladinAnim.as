@@ -1,6 +1,6 @@
 // Knight animations
 
-#include "KnightCommon.as";
+#include "PaladinCommon.as";
 #include "RunnerAnimCommon.as";
 #include "RunnerCommon.as";
 
@@ -35,6 +35,24 @@ void onInit( CSprite@ this )
 		shiny.SetVisible(false);
 		shiny.SetRelativeZ(1.0f);
 	}
+
+	CSpriteLayer@ hello = this.addSpriteLayer( "hello", "../Mods/KagMoba/Entities/Effects/Sprites/ForcePush.png", 56, 56, this.getBlob().getTeamNum(), -1);
+
+	if(hello !is null){
+		Animation@ anim = hello.addAnimation("hello", 2, false);
+		anim.AddFrame(0);
+		anim.AddFrame(1);
+		anim.AddFrame(2);
+		anim.AddFrame(2);
+		anim.AddFrame(3);
+		anim.AddFrame(3);
+		anim.AddFrame(2);
+		anim.AddFrame(2);
+		anim.AddFrame(3);
+		anim.AddFrame(3);
+		anim.AddFrame(2);
+		hello.SetVisible(false);
+	}
 }
 
 void onTick( CSprite@ this )
@@ -44,7 +62,7 @@ void onTick( CSprite@ this )
     Vec2f pos = blob.getPosition();
     Vec2f aimpos;
 
-	KnightInfo@ knight;
+	PaladinInfo@ knight;
 	if (!blob.get("knightInfo", @knight)) {
         return;
     }
@@ -295,7 +313,19 @@ void onTick( CSprite@ this )
         blob.Untag("attack head");
         blob.Untag("dead head");
     }
-    
+
+	CSpriteLayer@ hello = this.getSpriteLayer("hello");
+
+	if(hello !is null){
+		if(getGameTime() - knight.forceAbilityTimer == 0){ //&& hello.isAnimationEnded()){
+			hello.SetVisible(true);
+			//if(hello.isAnimationEnded())
+			hello.SetFrameIndex(0);
+		}
+		else if(hello.isAnimationEnded()){
+			hello.SetVisible(false);
+		}
+	}
 }
 
 void onGib(CSprite@ this)

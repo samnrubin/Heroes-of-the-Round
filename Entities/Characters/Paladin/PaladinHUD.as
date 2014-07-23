@@ -1,10 +1,12 @@
 //paladin HUD
 
-#include "ActorHUDStartPos.as";
 
 const string iconsFilename = "Entities/Characters/Knight/KnightIcons.png";
+const string abilityIconsFilename = "Entities/Characters/Paladin/PaladinAbilityIcons.png";
 const int slotsSize = 10;
 
+#include "ActorHUDStartPos.as";
+#include "PaladinCommon.as";
 void onInit( CSprite@ this )
 {
 	this.getCurrentScript().runFlags |= Script::tick_myplayer;
@@ -29,6 +31,34 @@ void ManageCursors( CBlob@ this )
 	}
 }
 
+void DrawAbilities(CSprite@ this){
+	PaladinInfo@ paladin;
+	if( !this.getBlob().get("knightInfo", @paladin) ){
+		return;
+	}
+
+	Vec2f dim = Vec2f(562, 64);
+	Vec2f ul(HUD_X - dim.x/2.0f, HUD_Y - dim.y + 14 );
+	ul+= Vec2f(48+16+304, -32.0f);
+    GUI::DrawIcon(abilityIconsFilename, 0, Vec2f(16,16), ul, 1.0f);
+
+	s16 forceCountdown = (KnightVars::force_ability_time - (getGameTime() - paladin.forceAbilityTimer)) / getTicksASecond() + 1;
+	string forceAbility;
+	SColor text_color;
+	if(forceCountdown > 0){
+		forceAbility = (formatInt(forceCountdown, ""));
+		text_color = SColor(255, 154, 0, 0);
+	}
+	else{
+		forceAbility = "Go!";
+		text_color = SColor(255, 28, 78, 12);
+	}
+	
+
+	GUI::DrawText(forceAbility, ul + Vec2f(38, 8), text_color);
+}
+
+
 void onRender( CSprite@ this )
 {
 	if (g_videorecording)
@@ -44,13 +74,13 @@ void onRender( CSprite@ this )
 	Vec2f tl = getActorHUDStartPosition(blob, slotsSize);
 	DrawInventoryOnHUD( blob, tl );	  
 
-	u8 type = blob.get_u8("bomb type");
+	u8 btype = blob.get_u8("bomb type");
 	u8 frame = 1;
-	if (type == 0){
+	if (btype == 0){
 		frame = 0;
 	}
-	else if (type < 255) {
-		frame = 1 + type;
+	else if (btype < 255) {
+		frame = 1 + btype;
 	}
 
 	// draw coins
@@ -61,5 +91,7 @@ void onRender( CSprite@ this )
 	// draw class icon
 
 	GUI::DrawIcon( iconsFilename, frame, Vec2f(16,32), tl+Vec2f(8 + (slotsSize-1)*32,-16), 1.0f);
+
+	DrawAbilities(this);
 }
 

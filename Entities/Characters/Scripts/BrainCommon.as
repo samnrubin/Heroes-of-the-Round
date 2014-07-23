@@ -68,20 +68,21 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 
 				CBlob@ potential = potentials[i];	
 				Vec2f pos2 = potentials[i].getPosition();
+				f32 enemyDist = (pos2 - pos).Length();
 				if (blob.getTeamNum() != potential.getTeamNum()
 					&& determineZone(blob) == determineZone(potential)
-					&& (pos2 - pos).Length() < t(distance)
+					&& enemyDist < t(distance)
 					/*&& ((direction == 2 && (pos2 - pos).Length() < t(distance)) ||
 					    (direction == 0 && (pos.x - pos2.x < t(distance) )) ||
 						(direction == 1 && (pos2.x - pos.x < t(distance))))*/
 					&& isVisible(blob, potential)
 					&& !potential.hasTag("dead")
-					&& !( potential.getName() == "scout" && pos2.y < pos.y - t(6))
+					&& !potential.hasTag("cloaked")
+					&& !( potential.getName() == "scout" && enemyDist < t(7))
 				)
 				{
-					f32 dist = (pos - pos2).Length();
-					if(dist <= closestDist){
-						closestDist = dist;
+					if(enemyDist <= closestDist){
+						closestDist = enemyDist;
 						closest = i;
 					}
 
@@ -172,23 +173,24 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 	{
 		CBlob@ potential = humans[i];	
 		Vec2f pos2 = humans[i].getPosition();
+		f32 enemyDist = (pos2 - pos).Length();
 		if (blob.getTeamNum() != potential.getTeamNum()
 			&& determineZone(blob) == determineZone(potential)
-			&& (pos2 - pos).Length() < t(20)
+			&& enemyDist < t(20)
 			&& isVisible(blob, potential)
 			&& !potential.hasTag("dead")
-			&& !( potential.getName() == "scout" && pos2.y < pos.y - t(6))
+			&& !potential.hasTag("cloaked")
+			&& !( potential.getName() == "scout" && enemyDist < t(7))
 			)
 		{
-			f32 dist = (pos - pos2).Length();
-			if(dist <= closestDist){
-				closestDist = dist;
+			if(enemyDist <= closestDist){
+				closestDist = enemyDist;
 				closest = i;
 				towerClose = false;
 				closeHuman = true;
 				closeBot = false;
 			}
-			if(dist < t(5) || (superCloseHuman && dist < (humans[superClose].getPosition() - pos).Length() )){
+			if(enemyDist < t(5) || (superCloseHuman && enemyDist < (humans[superClose].getPosition() - pos).Length() )){
 				superCloseHuman = true;
 				superClose = i;
 			}

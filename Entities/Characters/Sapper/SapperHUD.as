@@ -34,7 +34,7 @@ void ManageCursors( CBlob@ this )
 
 void DrawAbilities(CSprite@ this){
 	Vec2f dim = Vec2f(562, 64);
-	Vec2f ul(HUD_X - dim.x/2.0f, HUD_Y - dim.y + 12 );
+	Vec2f ul(HUD_X - dim.x/2.0f, HUD_Y - dim.y + 14 );
 	ul+= Vec2f(48+16+304, -32.0f);
     GUI::DrawIcon(abilityIconsFilename, 0, Vec2f(16,16), ul, 1.0f);
 
@@ -62,6 +62,6 @@ void onRender( CSprite@ this )
 
 	// draw class icon 
 
-    //GUI::DrawIcon(iconsFilename, 3, Vec2f(16,32), tl+Vec2f(8 + (slotsSize-1)*32,-13), 1.0f);
+    GUI::DrawIcon(iconsFilename, 3, Vec2f(16,32), tl+Vec2f(8 + (slotsSize-1)*32,-13), 1.0f);
 	DrawAbilities(this);
 }

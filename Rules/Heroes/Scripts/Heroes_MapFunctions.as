@@ -75,3 +75,11 @@ shared u8 determineXZone( Vec2f loc){
 	
 	return 1;
 }
+
+
+// Wtf is there no function to normalize and return a vector :|
+shared Vec2f normalize(Vec2f direction){
+	f32 normalizer = Maths::Abs(direction.x) > Maths::Abs(direction.y) ? direction.x : direction.y;
+	return direction / Maths::Abs(normalizer);
+}
+

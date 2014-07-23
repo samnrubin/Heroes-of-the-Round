@@ -31,12 +31,15 @@ void onInit(CSprite@ this){
 
 void onTick(CSprite@ this){
 	CBlob@ blob = this.getBlob();
-	if(blob.getPlayer() !is getLocalPlayer()){
-		CSpriteLayer @arrow = this.getSpriteLayer("team_arrow");
+	CSpriteLayer @arrow = this.getSpriteLayer("team_arrow");
+	if(blob.getPlayer() !is getLocalPlayer() && !blob.hasTag("dead")){
 
 		int bounce = 4*Maths::Sin((getGameTime()/4.5f));
 		arrow.SetVisible( true );
 		arrow.SetOffset(Vec2f(0.0f, -16 + bounce));
+	}
+	if(blob.hasTag("dead")){
+		arrow.SetVisible(false);
 	}
 
 }

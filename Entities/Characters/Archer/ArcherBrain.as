@@ -23,7 +23,7 @@ void onTick( CBrain@ this )
 					}
 				}*/
 	
-	SearchTarget( this, false, true );
+	ArcherSearchTarget( this, false, true );
 
     CBlob @blob = this.getBlob();
 	CBlob @target = this.getTarget();
@@ -108,36 +108,36 @@ CBlob@ archerGetNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls
 	Vec2f pos = blob.getPosition();
 
 
-	{
-		CBlob@[] scouts;
-		getBlobsByName( "scout", @scouts );
-		f32 closestDist = t(300);
-		int closest;
-		bool scoutClose = false;
+	CBlob@[] scouts;
+	getBlobsByName( "scout", @scouts );
+	f32 closestDist = t(300);
+	int closest;
+	bool scoutClose = false;
 
-		
-		for (uint i=0; i < scouts.length; i++)
+	
+	for (uint i=0; i < scouts.length; i++)
+	{
+		CBlob@ potential = scouts[i];	
+		Vec2f pos2 = potential.getPosition();
+		if (!(potential.getTeamNum() == blob.getTeamNum())
+			&& determineZone(blob) == determineZone(potential)
+			&& Maths::Abs(pos2.x - pos.x) < t(20)
+			&& isVisible(blob, potential)
+			&& !potential.hasTag("dead")
+			&& !potential.hasTag("cloaked")
+			)
 		{
-			CBlob@ potential = scouts[i];	
-			Vec2f pos2 = potential.getPosition();
-			if (!(potential.getTeamNum() == blob.getTeamNum())
-				&& determineZone(blob) == determineZone(potential)
-				&& (pos2 - pos).Length() < t(30)
-				&& isVisible(blob, potential)
-				&& !potential.hasTag("dead")
-				)
-			{
-				f32 dist = (pos - pos2).Length();
-				if(dist < closestDist){
-					closestDist = dist;
-					closest = i;
-					scoutClose = true;
-				}
+			f32 dist = (pos - pos2).Length();
+			if(dist < closestDist){
+				closestDist = dist;
+				closest = i;
+				scoutClose = true;
 			}
+			print("scout");
 		}
-		if(scoutClose)
-			return scouts[closest];
 	}
+	if(scoutClose)
+		return scouts[closest];
 
 	if(blob.hasTag("retinue")){
 		
@@ -212,7 +212,7 @@ CBlob@ archerGetNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls
 	CBlob@[] humans;
 	getBlobsByTag( "human", @humans );
 
-	f32 closestDist = t(300);
+	closestDist = t(300);
 
 	CBlob@[] players;
 	if(blob.hasTag("blue"))
@@ -240,7 +240,7 @@ CBlob@ archerGetNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls
 		}
 	}
 
-	int closest = players.length + humans.length;
+	closest = players.length + humans.length;
 
 	bool closeBot = false;
 	
@@ -254,6 +254,7 @@ CBlob@ archerGetNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls
 			&& (pos2 - pos).Length() < t(20)
 			&& isVisible(blob, potential)
 			&& !potential.hasTag("dead")
+			&& !potential.hasTag("cloaked")
 			)
 		{
 			f32 dist = (pos - pos2).Length();
@@ -469,7 +470,7 @@ void AttackBlob( CBlob@ blob, CBlob @target )
 			bool worthShooting;
 			bool hardShot = targetDistance > 30.0f*8.0f || target.getShape().vellen > 5.0f;
 			f32 aimFactor = 0.45f-XORRandom(100)*0.003f;
-			aimFactor += (-0.2f + XORRandom(100)*0.004f) / 50.0f; //DIFFICULTY
+			//aimFactor += (-0.2f + XORRandom(100)*0.004f) / 2000.0f; //DIFFICULTY
 			blob.setAimPos( blob.getBrain().getShootAimPosition( targetPos, hardShot, worthShooting, aimFactor ) );
 			if (worthShooting)
 			{
