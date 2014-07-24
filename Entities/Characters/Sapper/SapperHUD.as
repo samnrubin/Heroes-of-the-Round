@@ -33,10 +33,24 @@ void ManageCursors( CBlob@ this )
 }
 
 void DrawAbilities(CSprite@ this){
+	CBlob@ blob = this.getBlob();
+
 	Vec2f dim = Vec2f(562, 64);
 	Vec2f ul(HUD_X - dim.x/2.0f, HUD_Y - dim.y + 14 );
 	ul+= Vec2f(48+16+304, -32.0f);
     GUI::DrawIcon(abilityIconsFilename, 0, Vec2f(16,16), ul, 1.0f);
+
+	u8 guardCount = blob.get_u8("guardsize");
+	u8 guardMax = blob.get_u8("maxguard");
+
+	SColor text_color;
+
+	if(guardCount < guardMax)
+		text_color = SColor(255, 28, 78, 12);
+	else
+		text_color = SColor(255, 154, 0, 0);
+
+	GUI::DrawText(formatInt(guardCount, ""), ul + Vec2f(38, 8), text_color);
 
 }
 

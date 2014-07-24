@@ -28,6 +28,7 @@ void sapperCommand(CBlob@ this, int emote, int radius = 10, int maxretinue = 3){
 				knight.Tag("retinue");
 				knight.set_u16("sergeant", this.getNetworkID());
 				set_emote(knight, Emotes::builder);
+				knight.SetDamageOwnerPlayer(this.getPlayer());
 				retinuesize++;
 			}
 		}
@@ -43,7 +44,9 @@ void sapperCommand(CBlob@ this, int emote, int radius = 10, int maxretinue = 3){
 			CBlob@ knight = knights[i];
 			if(knight.get_u16("sergeant") == this.getNetworkID()){
 				set_emote(knight, Emotes::knight);
-				knight.Untag("retinue");
+				if(!knight.hasTag("personalGuard"))
+					knight.Untag("retinue");
+					knight.SetDamageOwnerPlayer(null);
 			}
 			
 		}

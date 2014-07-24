@@ -532,9 +532,7 @@ void onTick( CBlob@ this )
 
 	ManageGrapple( this, archer );
 
-	if(this.isKeyJustPressed(key_taunts)){
-		Cloak(this);
-	}
+	Cloak(this, archer);
 
 	// vvvvvvvvvvvvvv CLIENT-SIDE ONLY vvvvvvvvvvvvvvvvvvv
 
@@ -549,12 +547,11 @@ void onTick( CBlob@ this )
 
 	ManageBow( this, archer, moveVars );
 	
-	Cloak(this);
 
 }
 
 
-void Cloak(CBlob@ this){
+void Cloak(CBlob@ this, ScoutInfo@ scout){
 
 	bool cloaked = this.hasTag("cloaked");
 	this.getSprite().SetVisible(!cloaked);
@@ -563,8 +560,9 @@ void Cloak(CBlob@ this){
 		if(cloaked){
 			this.Untag("cloaked");
 			this.Sync("cloaked", true);
+			scout.cloakAbilityTimer = getGameTime();
 		}
-		else{
+		else if(getGameTime() - scout.cloakAbilityTimer > ArcherParams::cloak_ability_time) {
 			this.Tag("cloaked");
 			this.Sync("cloaked", true);
 			this.UnsetMinimapVars();
@@ -576,6 +574,8 @@ void Cloak(CBlob@ this){
 	if(!cloaked){
 		this.SetMinimapVars("GUI/Minimap/MinimapIcons.png", 8, Vec2f(8,8));
 	}
+
+
 
 }
 
@@ -774,6 +774,7 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
             }
 			this.Untag("cloaked");
 			this.Sync("cloaked", true);
+			archer.cloakAbilityTimer = getGameTime();
         }
 
         this.getSprite().PlaySound( "Entities/Characters/Archer/BowFire.ogg" );

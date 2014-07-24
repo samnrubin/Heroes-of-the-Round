@@ -187,7 +187,7 @@ f32 onHit( CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hit
 void onInit( CSprite@ this )
 {
     //init blue particles
-    CSpriteLayer@ blue = this.addSpriteLayer( "blue_animation_large", "../Mods/KagMoba/Entities/Effects/Sprites/BlueParticles.png", 16, 20, -1, -1 );
+    CSpriteLayer@ blue = this.addSpriteLayer( "blueparticle", "../Mods/KagMoba/Entities/Effects/Sprites/BlueParticles.png", 16, 20, -1, -1 );
 
     if (blue !is null)
     {
@@ -208,7 +208,7 @@ void onTick( CSprite@ this )
 {
 	this.getCurrentScript().tickFrequency = 12; // opt
 	CBlob@ blob = this.getBlob();		    
-    CSpriteLayer@ blue = this.getSpriteLayer( "blue_animation_large");	   
+    CSpriteLayer@ blue = this.getSpriteLayer( "blueparticle");	   
 	if (blue !is null)
 	{
 		//if we're teleporting

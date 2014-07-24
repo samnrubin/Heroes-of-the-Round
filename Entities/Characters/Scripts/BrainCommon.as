@@ -36,6 +36,7 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 		CBlob@ sergeant = getBlobByNetworkID(blob.get_u16("sergeant"));
 		if(sergeant is null || sergeant.hasTag("dead")){
 			blob.Untag("retinue");
+			blob.SetDamageOwnerPlayer(null);
 		}
 		else{
 			f32 closestDist = t(300);
@@ -247,6 +248,10 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 		}
 	}
 
+	if(existsWaypoint){
+		return waypoints[waypointIndex];
+	}
+
 	CBlob@[] halls;
     getBlobsByName( "hall", @halls );
 
@@ -255,17 +260,24 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 	// Only attack halls if not already in enemy base
 	if(determineXZone(blob) == 2){
 		for (uint i=0; i < halls.length; i++){
+			f32 xDistance = halls[i].getPosition().x - pos.x;
 			if(halls[i].getTeamNum() != blob.getTeamNum()
 			  && determineZone(halls[i]) == determineZone(blob)
-			  && Maths::Abs(halls[i].getPosition().x - pos.x) < closestDist){
+			  && Maths::Abs(halls[i].getPosition().x - pos.x) < closestDist
+			  && ((blob.getTeamNum() == 0 && xDistance >= 0) ||
+		    	  (blob.getTeamNum() == 1 && xDistance <= 0))
+			){
 				closeHall = true;
 				closestDist = Maths::Abs(halls[i].getPosition().x - pos.x);
+				closest = i;
 			}
 		}
 	}
 
-	if(existsWaypoint){
-		return waypoints[waypointIndex];
+
+	if(closeHall){
+		return halls[closest];
+		
 	}
 
 	CBlob@[] barracks;
@@ -341,15 +353,24 @@ void JustGo( CBlob@ blob, CBlob@ target )
 	if(retinue){
 		direction = target.get_u8("direction");
 		if(direction == 0){
-			point.x -= t(15);
+			point.x -= t(20);
 		}
 		else if(direction == 1){
-			point.x += t(15);
+			point.x += t(20);
 		}
 		blob.setAimPos(point);
+	} // hack to get units off the top off the portal
+	else if(target.getName() == "portal" && Maths::Abs(point.x - mypos.x) < t(10) && 
+			mypos.y < point.y){
+		if(blob.hasTag("blue"))
+			blob.setKeyPressed(key_left, true);
+		else
+			blob.setKeyPressed(key_right, true);
+		return;
 	}
-
+	
 	const f32 horiz_distance = Maths::Abs(point.x - mypos.x);
+
 	/*if(retinue && direction == 2 && horiz_distance < t(3) && point.y + t(1) < mypos.y){
 		blob.setKeyPressed( key_up, true );
 	}*/

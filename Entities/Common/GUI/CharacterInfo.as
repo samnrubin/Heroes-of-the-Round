@@ -32,7 +32,8 @@ void onInit(CSprite@ this){
 void onTick(CSprite@ this){
 	CBlob@ blob = this.getBlob();
 	CSpriteLayer @arrow = this.getSpriteLayer("team_arrow");
-	if(blob.getPlayer() !is getLocalPlayer() && !blob.hasTag("dead")){
+	if(blob.getPlayer() !is getLocalPlayer() && !blob.hasTag("dead") &&
+	   !(blob.hasTag("cloaked") && blob.getTeamNum() != getLocalPlayer().getTeamNum())){
 
 		int bounce = 4*Maths::Sin((getGameTime()/4.5f));
 		arrow.SetVisible( true );

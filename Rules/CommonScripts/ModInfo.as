@@ -4,27 +4,29 @@ const SColor M_COLOR = SColor(0, 51, 116, 51);
 		
 string[] chats = {"Don't forget to access the help menus with P and Z.",
 				 "#Sadboyyyyyzzzzz",
-				 "If you're attacked while casting a teleport scroll, your scroll will fail.",
+				 "If you're attacked while casting a teleport spell the spell will fail.",
 				 "The maximum amount of knights that can be commanded with a scroll of command is 20",
 				 ">2014 >playing as an archer",
+				 "Mook knights sure are dumb, but AI code sure is tedious",
 				 "Rangers can fire a 5 arrow legolas shot",
 				 "Coming soon: XP system",
 				 "Coming soon: Underground dungeon with creeps and bosses",
 				 "Coming soon: Armor/Weapon system",
-				 "Coming soon: Player abilities",
 				 "Think you can take on STORM in a clan war? Message Nand or Fiend",
 				 "Props to Aphelion's RP for showing just how much this game can be modified",
 				 "Coming soon: Upgradeable units",
-				 "Can you do sprite art? Shoot me a message on the forums",
+				 //"Can you do sprite art? Shoot me a message on the forums",
 				 "Don't forget to post in the forum thread if you like the mod!",
 				 "Suggestions? Post them in the HOTR Kag2d.com forum thread",
 				 "HOTR stands for Heroes of the Round",
+				 "HOTR stands for Heroes of the Round",
 				 "Found a bug? Please message me asap on the forums",
-				 "Frozen with a red circle? IT'S MY FAULT, help me fix the bug by sending me your latest console log",
+				 "Frozen with a red circle? IT'S MY FAULT, help me fix the bug by sending me(Nand) your latest console log",
 				 "This mod was created and designed by Nand",
 				 "This mod was created and designed by Nand",
 				 "This mod was created and designed by Nand",
-				 "This mod was created and designed by Nand"
+				 "Thanks to startselect3 for helping me test and annoying the shit out of me while doing it",
+				 "Interested in writing quotes for the traders? Message me on the forums"
 				 };
 
 

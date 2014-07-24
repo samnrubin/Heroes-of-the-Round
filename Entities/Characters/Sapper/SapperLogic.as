@@ -11,6 +11,7 @@
 #include "SapperHittable.as";
 #include "PlacementCommon.as";
 #include "Heroes_MapFunctions.as";
+#include "EmotesCommon.as";
 
 void onInit( CBlob@ this )
 {
@@ -32,10 +33,27 @@ void onInit( CBlob@ this )
 
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 	this.getCurrentScript().removeIfTag = "dead";
+	this.set_u8("maxguard", 3);
+
+
+
+	this.set_u8("maxguard", 3);
 }
 
 void onTick( CBlob@ this )
 {
+	CBlob@[] knights;
+	getBlobsByTag("personalGuard", @knights);
+	u8 currentguard = 0;
+
+	for(uint i = 0; i < knights.length; i++){
+		CBlob@ knight = knights[i];
+		if(knight !is null && this.getPlayer() !is null && knight.get_u16("bossplayer") == this.getPlayer().getNetworkID()){
+			currentguard++;
+		}
+	}
+	this.set_u8("guardsize", currentguard);
+
     Knocked(this);
 
 	if (this.isInInventory())
@@ -100,7 +118,8 @@ void onTick( CBlob@ this )
         }
     }
 
-	if(this.isKeyJustPressed(key_taunts)){
+	if(this.isKeyJustPressed(key_taunts) && this.get_u8("guardsize") < this.get_u8("maxguard") &&
+	   !getMap().rayCastSolid(this.getPosition(), this.getPosition() - Vec2f(0, t(3)))){
 		summonKnight(this);
 	}
 }
@@ -126,7 +145,15 @@ void summonKnight(CBlob@ this){
 			blob.Tag("red");
 			blob.server_setTeamNum(1);
 		}
+		blob.Tag("personalGuard");
+		blob.Tag("retinue");
+		blob.set_u16("sergeant", this.getNetworkID());
+		blob.set_u16("bossplayer", this.getPlayer().getNetworkID());
+		blob.set_u8("direction", 2);
+		blob.SetDamageOwnerPlayer(this.getPlayer());
+		set_emote(blob, Emotes::builder);
 	}
+	this.set_u8("guardsize", this.get_u8("guardsize") + 1);
 }
 
 void SendHitCommand( CBlob@ this, CBlob@ blob, const Vec2f tilepos, const Vec2f attackVel, const f32 attack_power )

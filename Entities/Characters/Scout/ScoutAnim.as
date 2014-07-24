@@ -111,6 +111,15 @@ void LoadSprites( CSprite@ this )
 		shiny.SetVisible(false);
 		shiny.SetRelativeZ(8.0f);
 	}
+
+	CSpriteLayer@ twinkle = this.addSpriteLayer( "twinkle", "RangerTwinkle.png", 16, 16 );
+	if(twinkle !is null){
+		Animation@ anim = twinkle.addAnimation( "reg", 3, true );
+		int[] frames = {0, 1, 2};
+		anim.AddFrames(frames);
+		twinkle.SetRelativeZ(10);
+		twinkle.SetVisible(false);
+	}
 }
 
 void setArmValues(CSpriteLayer@ arm, bool visible, f32 angle, f32 relativeZ, string anim, Vec2f around, Vec2f offset)
@@ -452,6 +461,7 @@ void cloakManagement(CSprite@ this){
 	CSpriteLayer@ quiver = this.getSpriteLayer("quiver");
 	CSpriteLayer@ backarm = this.getSpriteLayer("backarm");
 	CSpriteLayer@ frontarm = this.getSpriteLayer("frontarm");
+	CSpriteLayer@ twinkle = this.getSpriteLayer("twinkle");
 
 	if(this.getBlob().hasTag("cloaked")){
 		quiver.SetVisible(false);
@@ -459,8 +469,15 @@ void cloakManagement(CSprite@ this){
 		hook.SetVisible(false);
 		backarm.SetVisible(false);
 		frontarm.SetVisible(false);
+		twinkle.SetAnimation("reg");
+		if(getGameTime() % 180 == 0){
+			twinkle.SetVisible(true);
+
+		}else
+			twinkle.SetVisible(false);
 	}
 	else{
+		twinkle.SetVisible(false);
 		/*quiver.SetVisible(true);
 		rope.SetVisible(true);
 		hook.SetVisible(true);*/

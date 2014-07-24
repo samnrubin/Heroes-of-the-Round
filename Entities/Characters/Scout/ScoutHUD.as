@@ -1,6 +1,6 @@
 //archer HUD
 
-#include "ArcherCommon.as";
+#include "ScoutCommon.as";
 #include "ActorHUDStartPos.as";
 
 const string iconsFilename = "Entities/Characters/Archer/ArcherIcons.png";
@@ -30,10 +30,29 @@ void ManageCursors( CBlob@ this )
 }
 
 void DrawAbilities(CSprite@ this){
+	ScoutInfo@ scout;
+	if( !this.getBlob().get("archerInfo", @scout) )
+		return;
+	
 	Vec2f dim = Vec2f(562, 64);
 	Vec2f ul(HUD_X - dim.x/2.0f, HUD_Y - dim.y + 14 );
 	ul+= Vec2f(48+16+304, -32.0f);
     GUI::DrawIcon(abilityIconsFilename, 0, Vec2f(16,16), ul, 1.0f);
+
+	s16 cloakCountdown = (ArcherParams::cloak_ability_time - (getGameTime() - scout.cloakAbilityTimer)) / getTicksASecond() + 1;
+	string cloakAbility;
+	SColor text_color;
+	if(cloakCountdown > 0 && scout.cloakAbilityTimer != 0){
+		cloakAbility = (formatInt(cloakCountdown, ""));
+		text_color = SColor(255, 154, 0, 0);
+	}
+	else{
+		cloakAbility = "Go!";
+		text_color = SColor(255, 28, 78, 12);
+	}
+	
+
+	GUI::DrawText(cloakAbility, ul + Vec2f(38, 8), text_color);
 
 }
 

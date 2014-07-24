@@ -26,6 +26,7 @@ const ::f32 shoot_max_vel = 17.59f;
 const ::s32 legolas_charge_time = 5;
 const ::s32 legolas_arrows_count = 3;
 const ::s32 legolas_time = 60;
+const ::s32 cloak_ability_time = 20 * getTicksASecond();
 }
 
 //TODO: move vars into archer params namespace

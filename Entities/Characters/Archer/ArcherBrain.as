@@ -133,7 +133,6 @@ CBlob@ archerGetNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls
 				closest = i;
 				scoutClose = true;
 			}
-			print("scout");
 		}
 	}
 	if(scoutClose)
