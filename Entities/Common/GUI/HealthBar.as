@@ -16,8 +16,8 @@ void onRender( CSprite@ this )
 		Vec2f dim = Vec2f(24,8);
 		const f32 y = blob.getHeight()*2.4f;
 		const f32 initialHealth = blob.getInitialHealth();
-		if(blob.getName() == "portal")
-			pos2d -= Vec2f(0, 20.0f);
+		/*if(blob.getName() == "portal")
+			pos2d -= Vec2f(0, 20.0f);*/
 		if (initialHealth > 0.0f)
 		{
 			const f32 perc = blob.getHealth() / initialHealth;

@@ -34,6 +34,7 @@ void onInit( CBlob@ this )
 	this.getCurrentScript().runFlags |= Script::tick_not_attached;
 	this.getCurrentScript().removeIfTag = "dead";
 	this.set_u8("maxguard", 3);
+	this.set_u8("direction", 2);
 
 
 
@@ -129,14 +130,14 @@ void summonKnight(CBlob@ this){
 	
 	if(getNet().isServer()){
 		CBlob@ blob = server_CreateBlobNoInit( "knight" );
-		blob.setSexNum(0);
+		blob.setSexNum(this.getSexNum());
 		blob.setPosition(this.getPosition() - Vec2f(0, t(2)));
 		blob.setHeadNum( this.getHeadNum() );
 		blob.Init();						  
-		blob.set_u8("personality", XORRandom(10));
-		blob.set_f32("defaulthearts", 0.5);
+		blob.set_u8("personality", XORRandom(100));
+		blob.set_f32("defaulthearts", 0.75);
 		blob.getBrain().server_SetActive( true );
-		blob.server_SetHealth( blob.getInitialHealth() * 0.5 );
+		blob.server_SetHealth( blob.getInitialHealth() * 0.75 );
 		if(this.getTeamNum() == 0){
 			blob.Tag("blue");
 			blob.server_setTeamNum(0);
@@ -147,9 +148,10 @@ void summonKnight(CBlob@ this){
 		}
 		blob.Tag("personalGuard");
 		blob.Tag("retinue");
+		blob.Sync("retinue", false);
+		blob.Sync("personalGuard", false);
 		blob.set_u16("sergeant", this.getNetworkID());
 		blob.set_u16("bossplayer", this.getPlayer().getNetworkID());
-		blob.set_u8("direction", 2);
 		blob.SetDamageOwnerPlayer(this.getPlayer());
 		set_emote(blob, Emotes::builder);
 	}

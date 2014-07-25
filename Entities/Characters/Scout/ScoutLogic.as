@@ -554,30 +554,56 @@ void onTick( CBlob@ this )
 void Cloak(CBlob@ this, ScoutInfo@ scout){
 
 	bool cloaked = this.hasTag("cloaked");
+	bool justUncloaked = this.hasTag("justuncloaked");
 	this.getSprite().SetVisible(!cloaked);
 
 	if(this.isKeyJustPressed(key_taunts)){
 		if(cloaked){
 			this.Untag("cloaked");
-			this.Sync("cloaked", true);
-			scout.cloakAbilityTimer = getGameTime();
+			this.Tag("justuncloaked");
+			/*this.Sync("cloaked", true);
+			this.Sync("justUncloaked", true);*/
 		}
 		else if(getGameTime() - scout.cloakAbilityTimer > ArcherParams::cloak_ability_time) {
 			this.Tag("cloaked");
-			this.Sync("cloaked", true);
-			this.UnsetMinimapVars();
+			//this.Sync("cloaked", true);
+			this.set_u32("cloaktime", getGameTime());
 			ParticleZombieLightning(this.getPosition());
 		}
 
 	}
-
-	if(!cloaked){
+	if(!cloaked && justUncloaked){
 		this.SetMinimapVars("GUI/Minimap/MinimapIcons.png", 8, Vec2f(8,8));
+		scout.cloakAbilityTimer = getGameTime();
+		ParticleZombieLightning(this.getPosition());
+		this.Untag("justuncloaked");
+		this.Untag("minimapped");
+		//this.Sync("justuncloaked", true);
+	}
+	if(cloaked && !this.hasTag("minimapped") && (getGameTime() - this.get_u32("cloaktime")) > 8 * getTicksASecond()){
+		this.UnsetMinimapVars();
+		this.Tag("minimapped");
 	}
 
 
+}
+
+f32 onHit( CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hitterBlob, u8 customData ){
+	ScoutInfo@ scout;
+	if (!this.get( "archerInfo", @scout )) {
+		return damage;
+	}
+	if(this.hasTag("cloaked")){
+		this.Untag("cloaked");
+		this.Tag("justuncloaked");
+		//this.Sync("cloaked", true);
+		//this.Sync("justuncloaked", true);
+	}
+
+	return damage;
 
 }
+
 
 bool checkGrappleStep(CBlob@ this, ScoutInfo@ archer, CMap@ map, const f32 dist)
 {
@@ -772,10 +798,13 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 				arrow.setPosition( arrowPos );
                 arrow.setVelocity( arrowVel );
             }
-			this.Untag("cloaked");
-			this.Sync("cloaked", true);
-			archer.cloakAbilityTimer = getGameTime();
         }
+		if(this.hasTag("cloaked")){
+			this.Untag("cloaked");
+			this.Tag("justuncloaked");
+			/*this.Sync("cloaked", true);
+			this.Sync("justuncloaked", true);*/
+		}
 
         this.getSprite().PlaySound( "Entities/Characters/Archer/BowFire.ogg" );
         this.TakeBlob( arrowTypeNames[ arrowType ], 1 );

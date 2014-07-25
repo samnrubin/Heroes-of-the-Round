@@ -5,6 +5,7 @@
 
 #include "MakeCrate.as";
 #include "TradingCommon.as";
+#include "Heroes_MapFunctions";
 
 const string spawnBlobName = "tradingpost";
 const bool doParaSpawn = false;
@@ -110,7 +111,12 @@ bool isTraderAround( Vec2f pos )
 CBlob@ SpawnTrader( Vec2f position, int teamNum,  bool parachute, CBlob@ post )
 {
     // spawn in crate/parachute
-    Vec2f dropPos = position;
+	/*Vec2f adder;
+	if(determineSide(position))
+		adder*/
+
+
+	Vec2f dropPos = position + Vec2f(t(5), 0);
 	
     if (parachute) {
         dropPos = getDropPosition( position );
@@ -121,6 +127,7 @@ CBlob@ SpawnTrader( Vec2f position, int teamNum,  bool parachute, CBlob@ post )
     }
 
     CBlob@ trader = server_CreateBlobNoInit( "trader");
+
 
 	trader.setPosition(dropPos);
 

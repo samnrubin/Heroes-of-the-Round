@@ -78,13 +78,13 @@ void onTick( CBlob@ this){
 					Sound::Play( "MagicWand.ogg", this.getPosition() );
 				}
 
-				if(this.get_u8("retinuesize") > 0){
+				if(this.get_u8("retinuesize") > 0 || this.getName() =="sapper"){
 					CBlob@[] retinue;
 					getBlobsByTag("retinue", @retinue);
 					for(uint j = 0; j < retinue.length; j++){
 						CBlob@ traveller = retinue[j];
 						if(traveller.get_u16("sergeant") == this.getNetworkID() &&
-						   (traveller.getPosition() - this.getPosition()).Length() < t(7)){
+						   (traveller.getPosition() - this.getPosition()).Length() < t(20)){
 							traveller.setPosition(halls[hallIndex].getPosition());
 							traveller.setVelocity( Vec2f_zero );
 							
@@ -135,13 +135,13 @@ void onTick( CBlob@ this){
 					scroll.server_Die();
 				}
 				
-				if(this.get_u8("retinuesize") > 0){
+				if(this.get_u8("retinuesize") > 0 || this.getName() == "sapper"){
 					CBlob@[] retinue;
 					getBlobsByTag("retinue", @retinue);
 					for(uint j = 0; j < retinue.length; j++){
 						CBlob@ traveller = retinue[j];
 						if(traveller.get_u16("sergeant") == this.getNetworkID() &&
-						   (traveller.getPosition() - this.getPosition()).Length() < t(7)){
+						   (traveller.getPosition() - this.getPosition()).Length() < t(20)){
 							traveller.setPosition(portals[i].getPosition());
 							traveller.setVelocity( Vec2f_zero );
 							

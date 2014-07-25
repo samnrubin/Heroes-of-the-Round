@@ -130,22 +130,17 @@ void Travel( CBlob@ this, CBlob@ caller, CBlob@ tunnel )
 {
 	if (caller !is null && tunnel !is null)
 	{
-		if(caller.get_u8("retinuesize") > 0){
+		if(caller.get_u8("retinuesize") > 0 || caller.getName() == "sapper"){
 
 			CBlob@[] retinue;
 			getBlobsByTag("retinue", @retinue);
 			for(uint j = 0; j < retinue.length; j++){
 				CBlob@ traveller = retinue[j];
 				
-				if((traveller.getPosition() - caller.getPosition()).Length() < t(7))
-					print("tunnel");
 
 				if(traveller.get_u16("sergeant") == caller.getNetworkID() &&
-				   (traveller.getPosition() - caller.getPosition()).Length() < t(7)){
-					print("HWAT");
+				   (traveller.getPosition() - caller.getPosition()).Length() < t(20)){
 					traveller.setPosition(tunnel.getPosition());
-					print(formatFloat(tunnel.getPosition().x / t(1), ""));
-					print(formatFloat(traveller.getPosition().x / t(1), ""));
 					traveller.setVelocity( Vec2f_zero );
 					traveller.getShape().PutOnGround();
 					

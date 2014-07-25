@@ -175,6 +175,7 @@ const SColor color_towertop_red(0xff9c1bbc);
 
 const SColor color_neutral_trader(0xff34344b);
 const SColor color_neutral_waypoint(0xffdface0);
+const SColor color_neutral_exchange(0xff11b014);
 
 const SColor color_red_tent(0xfffe0000);
 const SColor color_blue_tent(0xff01ffff);
@@ -980,6 +981,11 @@ class PNGLoader
 		else if (pixel == color_neutral_waypoint)
 		{
 			spawnBlob( map, "waypoint", offset, -1);
+			offsets[autotile_offset].push_back( offset );
+		}
+		else if (pixel == color_neutral_exchange)
+		{
+			spawnBlob( map, "exchange", offset, -1);
 			offsets[autotile_offset].push_back( offset );
 		}
 	}

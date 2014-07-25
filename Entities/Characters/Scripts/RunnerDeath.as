@@ -22,12 +22,12 @@ f32 onHit( CBlob@ this, Vec2f worldPoint, Vec2f velocity, f32 damage, CBlob@ hit
 		   this.hasTag("red")){
 			//if(customData == Hitters::
 			if(hitterBlob.getPlayer() !is null){
-				hitterBlob.getPlayer().server_setCoins(hitterBlob.getPlayer().getCoins() + 1);
+				hitterBlob.getPlayer().server_setCoins(hitterBlob.getPlayer().getCoins() + 2);
 			}
 			else if(hitterBlob.hasTag("retinue")){
 				CPlayer@ owner = hitterBlob.getDamageOwnerPlayer();
 				if(owner !is null){
-					owner.server_setCoins(owner.getCoins() + 1);
+					owner.server_setCoins(owner.getCoins() + 2);
 				}
 			}
 

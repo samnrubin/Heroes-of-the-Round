@@ -10,12 +10,12 @@ void handleEmote(CBlob@ this, int emote){
 }
 
 void sapperCommand(CBlob@ this, int emote, int radius = 10, int maxretinue = 3){
+	CBlob@[] knights;
 	if(emote == Emotes::knight){
 		if(!this.exists("retinuesize")){
 			this.set_u8("retinuesize", 0);
 		}
 		u8 retinuesize = this.get_u8("retinuesize");
-		CBlob@[] knights;
 		this.getMap().getBlobsInRadius(this.getPosition(), t(radius), knights);
 		this.set_u8("direction", 2);
 
@@ -37,7 +37,6 @@ void sapperCommand(CBlob@ this, int emote, int radius = 10, int maxretinue = 3){
 	}
 	else if(emote == Emotes::builder){
 		this.set_u8("retinuesize", 0);
-		CBlob@[] knights;
 		getBlobsByTag("retinue", @knights);
 
 		for(uint i = 0; i < knights.length; i++){
@@ -51,59 +50,58 @@ void sapperCommand(CBlob@ this, int emote, int radius = 10, int maxretinue = 3){
 			
 		}
 	}
-	else if(emote == Emotes::left){
-		this.set_u8("direction", 0);
-		CBlob@[] knights;
-		getBlobsByTag("retinue", @knights);
+	else{
+		if(emote == Emotes::left){
+			this.set_u8("direction", 0);
+			getBlobsByTag("retinue", @knights);
 
-		for(uint i = 0; i < knights.length; i++){
-			CBlob@ knight = knights[i];
-			if(knight.get_u16("sergeant") == this.getNetworkID()){
-				set_emote(knight, Emotes::left);
+			for(uint i = 0; i < knights.length; i++){
+				CBlob@ knight = knights[i];
+				if(knight.get_u16("sergeant") == this.getNetworkID()){
+					set_emote(knight, Emotes::left);
+				}
+				
 			}
 			
 		}
-		
-	}
-	else if(emote == Emotes::right){
-		CBlob@[] knights;
-		getBlobsByTag("retinue", @knights);
-		this.set_u8("direction", 1);
+		else if(emote == Emotes::right){
+			getBlobsByTag("retinue", @knights);
+			this.set_u8("direction", 1);
 
-		for(uint i = 0; i < knights.length; i++){
-			CBlob@ knight = knights[i];
-			if(knight.get_u16("sergeant") == this.getNetworkID()){
-				set_emote(knight, Emotes::right);
+			for(uint i = 0; i < knights.length; i++){
+				CBlob@ knight = knights[i];
+				if(knight.get_u16("sergeant") == this.getNetworkID()){
+					set_emote(knight, Emotes::right);
+				}
+				
 			}
 			
 		}
-		
-	}
-	else if(emote == Emotes::down){
-		CBlob@[] knights;
-		getBlobsByTag("retinue", @knights);
-		this.set_u8("direction", 2);
+		else if(emote == Emotes::down){
+			getBlobsByTag("retinue", @knights);
+			this.set_u8("direction", 2);
 
-		for(uint i = 0; i < knights.length; i++){
-			CBlob@ knight = knights[i];
-			if(knight.get_u16("sergeant") == this.getNetworkID()){
-				set_emote(knight, Emotes::builder);
+			for(uint i = 0; i < knights.length; i++){
+				CBlob@ knight = knights[i];
+				if(knight.get_u16("sergeant") == this.getNetworkID()){
+					set_emote(knight, Emotes::builder);
+				}
+				
 			}
-			
 		}
-	}
-	else if(emote == Emotes::wall){
-		CBlob@[] knights;
-		getBlobsByTag("retinue", @knights);
-		this.set_u8("direction", 3);
+		else if(emote == Emotes::wall){
+			getBlobsByTag("retinue", @knights);
+			this.set_u8("direction", 3);
 
-		for(uint i = 0; i < knights.length; i++){
-			CBlob@ knight = knights[i];
-			if(knight.get_u16("sergeant") == this.getNetworkID()){
-				set_emote(knight, Emotes::wall);
+			for(uint i = 0; i < knights.length; i++){
+				CBlob@ knight = knights[i];
+				if(knight.get_u16("sergeant") == this.getNetworkID()){
+					set_emote(knight, Emotes::wall);
+				}
+				
 			}
-			
 		}
+
 	}
 
 }

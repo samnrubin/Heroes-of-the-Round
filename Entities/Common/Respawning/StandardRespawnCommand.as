@@ -29,13 +29,13 @@ bool canChangeClass( CBlob@ this, CBlob @caller )
 // default classes
 void InitClasses( CBlob@ this )
 {
-	AddIconToken( "$builder_class_icon$", "GUI/MenuItems.png", Vec2f(32,32), 8 );
 	AddIconToken( "$knight_class_icon$", "GUI/MenuItems.png", Vec2f(32,32), 12 );
 	AddIconToken( "$archer_class_icon$", "GUI/MenuItems.png", Vec2f(32,32), 16 );
+	AddIconToken( "$builder_class_icon$", "GUI/MenuItems.png", Vec2f(32,32), 8 );
 	AddIconToken( "$change_class$", "GUI/InteractionIcons.png", Vec2f(32,32), 12, 2 );
-	addPlayerClass( this, "Sergeant", "$builder_class_icon$", "sapper", "Sap ALL the towers." );
 	addPlayerClass( this, "Paladin", "$knight_class_icon$", "paladin", "Hack and Slash." );
 	addPlayerClass( this, "Ranger", "$archer_class_icon$", "scout", "The Ranged Advantage." );
+	addPlayerClass( this, "Sergeant", "$builder_class_icon$", "sapper", "Sap ALL the towers." );
 }
 
 void BuildRespawnMenuFor( CBlob@ this, CBlob @caller )

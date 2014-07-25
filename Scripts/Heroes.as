@@ -615,7 +615,7 @@ shared class HeroesCore : RulesCore
 
 			blob.Init();						  
 			blob.server_setTeamNum(blue ? 0 : 1);
-			blob.set_u8("personality", XORRandom(10));
+			blob.set_u8("personality", XORRandom(100));
 			blob.set_f32("defaulthearts", hearts);
 			blob.getBrain().server_SetActive( true );
 			blob.server_SetHealth( blob.getInitialHealth() * hearts );

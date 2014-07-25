@@ -22,7 +22,7 @@ void onInit( CBlob@ this )
 	this.getSprite().SetZ(-50); //background
 	this.getShape().getConsts().mapCollisions = false;
 
-	AddIconToken( "$vehicleshop_upgradebolts$", "BallistaBolt.png", Vec2f(32,8), 1 );
+	/*AddIconToken( "$vehicleshop_upgradebolts$", "BallistaBolt.png", Vec2f(32,8), 1 );
 	
 	// SHOP
 
@@ -56,11 +56,11 @@ void onInit( CBlob@ this )
 		s.buttonheight = 1;
 		AddRequirement( s.requirements, "blob", "mat_gold", "Gold", cost_ballista_ammo_upgrade_gold );
 		AddRequirement( s.requirements, "not tech", "bomb ammo", "Bomb Bolt", 1 );
-	}
+	}*/
 	
 }
 
-void GetButtonsFor( CBlob@ this, CBlob@ caller )
+/*void GetButtonsFor( CBlob@ this, CBlob@ caller )
 {
 	this.set_bool("shop available", this.isOverlapping(caller) );
 }
@@ -87,4 +87,4 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 			}
 		}
 	}
-}
+}*/

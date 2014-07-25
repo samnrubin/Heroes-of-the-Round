@@ -36,6 +36,8 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 		CBlob@ sergeant = getBlobByNetworkID(blob.get_u16("sergeant"));
 		if(sergeant is null || sergeant.hasTag("dead")){
 			blob.Untag("retinue");
+			blob.Sync("retinue", true);
+			print("unretinue");
 			blob.SetDamageOwnerPlayer(null);
 		}
 		else{
@@ -79,7 +81,7 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 					&& isVisible(blob, potential)
 					&& !potential.hasTag("dead")
 					&& !potential.hasTag("cloaked")
-					&& !( potential.getName() == "scout" && enemyDist < t(7))
+					&& !( potential.getName() == "scout" && enemyDist > t(7))
 				)
 				{
 					if(enemyDist <= closestDist){
@@ -181,7 +183,7 @@ CBlob@ getNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls = fal
 			&& isVisible(blob, potential)
 			&& !potential.hasTag("dead")
 			&& !potential.hasTag("cloaked")
-			&& !( potential.getName() == "scout" && enemyDist < t(7))
+			&& !( potential.getName() == "scout" && enemyDist > t(7))
 			)
 		{
 			if(enemyDist <= closestDist){
@@ -349,14 +351,15 @@ void JustGo( CBlob@ blob, CBlob@ target )
 	}
 	else*/
 	bool retinue = target.getTeamNum() == blob.getTeamNum() && target.hasTag("human");
-	int direction;
+	int direction = 4;
 	if(retinue){
 		direction = target.get_u8("direction");
+		//print(formatInt(direction, ""));
 		if(direction == 0){
-			point.x -= t(20);
+			point.x -= t(16);
 		}
 		else if(direction == 1){
-			point.x += t(20);
+			point.x += t(16);
 		}
 		blob.setAimPos(point);
 	} // hack to get units off the top off the portal
@@ -389,7 +392,7 @@ void JustGo( CBlob@ blob, CBlob@ target )
 		}
 	}
 	else{
-		limiter = t(blob.get_u8("personality") % 5 + 2);
+		limiter = t((blob.get_u8("personality") % 50) / 10 + 2);
 	}
 
 	if(!(retinue && horiz_distance < limiter) &&
@@ -563,6 +566,8 @@ void SearchTarget( CBrain@ this, const bool seeThroughWalls = false, const bool 
 void onChangeTarget( CBlob@ blob, CBlob@ target, CBlob@ oldTarget )
 {
 	//set_emote( blob, Emotes::attn, 1 );
+	blob.set_u16("target", target.getNetworkID());
+	blob.Sync("target", true);
 }
 
 bool LoseTarget( CBrain@ this, CBlob@ target )

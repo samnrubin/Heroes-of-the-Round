@@ -19,24 +19,22 @@ void onInit( CBrain@ this )
 }
 
 void isStuck( CBlob@ this ){
-	if(this.hasTag("retinue")){
-		return;
-	}
 
 	u16 stuckTime = this.get_u16("stuckTime");
 	f32 lastXPos = this.get_f32("lastXPos");
 	Vec2f pos = this.getPosition();
 
-				/*CBlob@[] nands;
-				this.getMap().getBlobsInRadius(pos, t(3), @nands);
-				for(uint i = 0; i < nands.length; i++){
-					if(nands[i].hasTag("human")){
-						print(this.getBrain().getTarget().getName());
-						if(this.isKeyPressed(key_right))
-							print("right");
-						break;
-					}
-				}*/
+	/*CBlob@[] nands;
+	this.getMap().getBlobsInRadius(pos, t(3), @nands);
+	for(uint i = 0; i < nands.length; i++){
+		if(nands[i].hasTag("human")){
+			print(formatInt(this.get_u8("direction"), ""));
+			break;
+		}
+	}*/
+	if(this.hasTag("retinue")){
+		return;
+	}
 	if(Maths::Abs(pos.x - lastXPos) < t(0.5) && !this.isOnLadder()){
 		stuckTime++;
 		this.set_u16("stuckTime", stuckTime);
@@ -176,7 +174,7 @@ void onTick( CBrain@ this )
 		}
 		else if (strategy == Strategy::attacking)
 		{
-			if (!visibleTarget || distance > 120.0f || target.getName() == "waypoint") {
+			if (!visibleTarget || distance > 120.0f || target.getName() == "waypoint" || target.getTeamNum() == blob.getTeamNum()) {
 				strategy = Strategy::chasing; 
 			}
 		}

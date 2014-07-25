@@ -30,7 +30,6 @@ const string buymigrantcmd = "buy migrant";
 const string drowncmd = "drowned";
 
 const string framecmd = "setframe";
-const string exchangecmd = "exchange";
 
 void onInit( CBlob@ this )
 {
@@ -47,7 +46,6 @@ void onInit( CBlob@ this )
 	this.addCommandID(drowncmd);
 	
 	this.addCommandID(framecmd);
-	this.addCommandID(exchangecmd);
 	this.addCommandID("class menu");
 
 	this.set_s32("capture time", 0 );
@@ -369,18 +367,6 @@ void GetButtonsFor( CBlob@ this, CBlob@ caller )
 				button.SetEnabled( false );
 			}
 		}
-		if( caller.getPlayer().getCoins() >= EXCHANGE_COST )
-		{
-			//buy migrant button
-			CButton@ button = caller.CreateGenericButton( "$mat_gold$", buttonpos2, this, this.getCommandID(exchangecmd), "Exchange "+EXCHANGE_COST+" Coins for 10 gold" , params);
-		}
-		else
-		{
-			CButton@ button = caller.CreateGenericButton( "$mat_gold$", buttonpos2, this, 0, "Exchange for 10 gold: Requires "+EXCHANGE_COST+" Coins" );
-			if (button !is null) {
-				button.SetEnabled( false );
-			}
-		}
 	}
 }
 
@@ -443,26 +429,6 @@ void onCommand( CBlob@ this, u8 cmd, CBitStream @params )
 		this.Untag("under raid");
 		this.set_s32("capture time", 0 );
 		this.getSprite().animation.frame = 2;
-	}
-	else if (cmd == this.getCommandID(exchangecmd))
-	{
-		u16 callerID = params.read_u16();
-		CBlob@ caller = getBlobByNetworkID( callerID );
-		
-		if(caller !is null)
-		{
-			if( caller.getPlayer().getCoins() >= EXCHANGE_COST )
-			{
-				caller.getPlayer().server_setCoins( caller.getPlayer().getCoins() - EXCHANGE_COST);
-				CBlob@ mat = server_CreateBlob("mat_gold");
-				if(mat !is null){
-					mat.Tag("do not set materials");
-					mat.server_SetQuantity(10);
-					if(!caller.server_PutInInventory(mat))
-						mat.setPosition(caller.getPosition());
-				}
-			}
-		}
 	}
 	else if (cmd == this.getCommandID("class menu"))
     {
