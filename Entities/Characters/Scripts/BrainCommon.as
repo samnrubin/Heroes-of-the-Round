@@ -513,7 +513,6 @@ void DefaultChaseBlob( CBlob@ blob, CBlob @target )
 	else{
 		if(blob.getTeamNum() == 0){
 			blob.setKeyPressed( key_right, true);
-				print("way2");
 		}
 		else if(blob.getTeamNum() == 1){
 			blob.setKeyPressed( key_left, true);

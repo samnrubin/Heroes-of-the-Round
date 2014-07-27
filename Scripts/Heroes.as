@@ -639,13 +639,13 @@ shared class HeroesCore : RulesCore
 		int bottomblue = 0;
 		int bottomred = 0;
 		for(int i = 0; i < knights.length; i++){
-			if(knights[i].getTeamNum() == 0 && !knights[i].hasTag("dead")){
+			if(knights[i].getTeamNum() == 0 && !knights[i].hasTag("dead") && !knights[i].hasTag("personalGuard")){
 				if(determineZone(knights[i]) == 0) 
 					topblue++;
 				else
 					bottomblue++;
 			}
-			else if(!knights[i].hasTag("dead")){
+			else if(!knights[i].hasTag("dead") && !knights[i].hasTag("personalGuard")){
 				if(determineZone(knights[i]) == 0) 
 					topred++;
 				else

@@ -608,7 +608,7 @@ void forceAway(CBlob@ this){
 			if(hitBlob.getTeamNum() != this.getTeamNum() && hitBlob.getName() != "trader"){
 				Vec2f direction = hitBlob.getPosition() - pos;
 				f32 multiplier = 1.0 - (direction.Length()/radius) * 0.5;
-				f32 force = (hitBlob.hasTag("player") || hitBlob.hasTag("mob")) ? 1000.0f : 500.0f;
+				f32 force = (hitBlob.hasTag("player") || hitBlob.hasTag("mob")) ? 1000.0f : 650.0f;
 				hitBlob.AddForce(normalize(direction) * force * multiplier);
 			}
 		}

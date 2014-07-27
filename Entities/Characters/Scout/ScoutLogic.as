@@ -580,7 +580,7 @@ void Cloak(CBlob@ this, ScoutInfo@ scout){
 		this.Untag("minimapped");
 		//this.Sync("justuncloaked", true);
 	}
-	if(cloaked && !this.hasTag("minimapped") && (getGameTime() - this.get_u32("cloaktime")) > 8 * getTicksASecond()){
+	if(cloaked && !this.hasTag("minimapped") && (getGameTime() - this.get_u32("cloaktime")) > 5 * getTicksASecond()){
 		this.UnsetMinimapVars();
 		this.Tag("minimapped");
 	}

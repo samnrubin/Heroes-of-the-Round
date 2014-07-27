@@ -128,6 +128,10 @@ void isStuck( CBlob@ this ){
 
 	
 	}*/
+
+	if(stuckTime > getTicksASecond() * 60){
+		this.server_Die();
+	}
 }
 
 

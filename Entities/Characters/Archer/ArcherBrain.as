@@ -11,6 +11,29 @@ void onInit( CBrain@ this )
 	InitBrain( this );
 }
 
+void isStuck( CBlob@ this ){
+
+	u16 stuckTime = this.get_u16("stuckTime");
+	f32 lastXPos = this.get_f32("lastXPos");
+	Vec2f pos = this.getPosition();
+
+	if(this.hasTag("retinue")){
+		return;
+	}
+	if(Maths::Abs(pos.x - lastXPos) < t(0.5) && !this.isOnLadder()){
+		stuckTime++;
+		this.set_u16("stuckTime", stuckTime);
+	}
+	else{
+		this.set_f32("lastXPos", pos.x);
+		this.set_u16("stuckTime", 0);
+	}
+
+	if(stuckTime > getTicksASecond() * 60){
+		this.server_Die();
+	}
+}
+
 void onTick( CBrain@ this )
 {
 	/*CBlob@[] nands;
@@ -27,6 +50,8 @@ void onTick( CBrain@ this )
 
     CBlob @blob = this.getBlob();
 	CBlob @target = this.getTarget();
+
+	isStuck(blob);
 
 	// logic for target
 								   	
@@ -331,8 +356,7 @@ CBlob@ archerGetNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls
 		CBlob@ waypoint = waypoints[i];
 		Vec2f pos2 = waypoint.getPosition();
 		f32 xDistance = pos2.x - pos.x;
-		if(waypoint.hasTag("enabled") &&
-		   waypoint.getShape().isStatic() &&
+		if(waypoint.getShape().isStatic() &&
 		   determineZone(blob) == determineZone(waypoint) &&
 		   waypoint.getTeamNum() == blob.getTeamNum() &&
 		   ((blob.getTeamNum() == 0 && xDistance >= 0) ||
@@ -349,24 +373,11 @@ CBlob@ archerGetNewTarget( CBrain@ this, CBlob @blob, const bool seeThroughWalls
 			}
 		}
 	}
-
-	CBlob@[] halls;
-    getBlobsByName( "hall", @halls );
-
-
-	// Only attack halls if not already in enemy base
-	if(determineXZone(blob) == 2){
-		for (uint i=0; i < halls.length; i++){
-			if(halls[i].getTeamNum() != blob.getTeamNum()
-			  && determineZone(halls[i]) == determineZone(blob)
-			  && Maths::Abs(halls[i].getPosition().x - pos.x) < closestDist)
-				return halls[i];
-		}
-	}
-
 	if(existsWaypoint){
 		return waypoints[waypointIndex];
 	}
+
+
 
 	CBlob@[] barracks;
     getBlobsByName( "barracks", @barracks );
